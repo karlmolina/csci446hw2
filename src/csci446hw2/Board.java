@@ -15,23 +15,29 @@ import java.util.Scanner;
  * @author Karl
  */
 public class Board {
-    private char[][] grid;
-    private int height, width;
+    char[][] grid;
+    int size;
     public Board(String fileName) throws FileNotFoundException {
         Scanner in = new Scanner(new File(fileName));
         ArrayList<String> lines = new ArrayList<>();
         while (in.hasNext()) {
             lines.add(in.next());
         }
-        height = lines.size();
-        width = lines.get(0).length();
+        size = lines.size();
         
-        grid = new char[height][width];
+        grid = new char[size][size];
         
-        for (int i = 0; i < height; i++) {
-            grid[i] = lines.get(0).toCharArray();
+        for (int i = 0; i < size; i++) {
+            grid[i] = lines.get(i).toCharArray();
         }
-        
-        
+    }
+    
+    public void print() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.print(grid[i][j]);
+            }
+            System.out.println();
+        }
     }
 }
