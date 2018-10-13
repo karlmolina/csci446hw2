@@ -17,6 +17,7 @@ public class Node {
     char color;
     ArrayList<Node> children;
     boolean isSource;
+    boolean isAssigned;
     
     public Node(int x, int y) {
         children = new ArrayList<>();

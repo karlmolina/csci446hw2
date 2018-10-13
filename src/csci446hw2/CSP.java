@@ -15,22 +15,23 @@ import java.util.HashSet;
  */
 public class CSP {
 
+    
+
     HashSet<Node> variables;
     HashSet<Node> unassignedVariables;
-    HashMap<Node, Character> sourceVariables;
+    char[][] sourceVariables;
     HashMap<Node, HashSet<Character>> domains;
 
-    public CSP(Graph graph) {
+    public CSP(Board board) {
+        sourceVariables = board.grid;
         variables = new HashSet<>();
-        sourceVariables = new HashMap<>();
         unassignedVariables = new HashSet<>();
         domains = new HashMap<>();
         HashSet<Character> allColors = new HashSet<>();
-        for (Node[] nodeArray : graph.nodes) {
+        for (Node[] nodeArray : board.nodes) {
             for (Node node : nodeArray) {
                 if (node.isSource) {
                     allColors.add(node.color);
-                    sourceVariables.put(node, node.color);
                 } else {
                     unassignedVariables.add(node);
                 }
@@ -45,35 +46,52 @@ public class CSP {
         }
     }
 
-    public static HashMap<Node, Character> backtrackingSearch(CSP csp) {
+    public static char[][] backtrackingSearch(CSP csp) {
         return recursiveBacktracking(csp.sourceVariables, csp);
     }
 
-    public static HashMap<Node, Character> recursiveBacktracking(HashMap<Node, Character> assignment, CSP csp) {
+    public static char[][] recursiveBacktracking(char[][] assignment, CSP csp) {
+        System.out.println();
+        for (int i = 0; i < assignment.length + 1; i++) {
+            for (int j = 0; j < assignment.length + 1; j++) {
+                if (j == 0) {
+                    System.out.print(Math.abs(i - 1));
+                } else if (i == 0) {
+                    System.out.print(j - 1);
+                } else {
+                    System.out.print(assignment[i - 1][j - 1]);
+                }
+            }
+            System.out.println();
+        }
         if (csp.unassignedVariables.isEmpty()) {
             return assignment;
         }
         Node current = csp.unassignedVariables.iterator().next();
         csp.unassignedVariables.remove(current);
         for (Character color : csp.domains.get(current)) {
-            if (isConsistent(current, color, assignment)) {
-                assignment.put(current, color);
-                HashMap<Node, Character> result = recursiveBacktracking(assignment, csp);
+            if (childrenConsistent(current, color, assignment)) {
+                assignment[current.y][current.x] = color;
+                current.isAssigned = true;
+                current.color = color;
+                char[][] result = recursiveBacktracking(assignment, csp);
                 if (result != null) {
                     return result;
                 }
-                assignment.remove(current);
+                assignment[current.y][current.x] = '_';
+                current.isAssigned = false;
+                current.color = '_';
             }
         }
         csp.unassignedVariables.add(current);
         return null;
     }
 
-    public static boolean isConsistent(Node node, Character color, HashMap<Node, Character> assignment) {
+    public static boolean isConsistent(Node node, Character color, char[][] assignment) {
         int sameColorCount = 0;
         if (node.isSource) {
             for (Node child : node.children) {
-                if (assignment.containsKey(child) && child.color == color) {
+                if (child.isAssigned && child.color == color) {
                     sameColorCount++;
                 }
                 if (sameColorCount > 1) {
@@ -82,7 +100,7 @@ public class CSP {
             }
         } else {
             for (Node child : node.children) {
-                if (assignment.containsKey(child) && child.color == color) {
+                if (child.isAssigned && child.color == color) {
                     sameColorCount++;
                 }
                 if (sameColorCount > 2) {
@@ -91,5 +109,15 @@ public class CSP {
             }
         }
         return true;
+    }
+    
+    private static boolean childrenConsistent(Node current, Character color, char[][] assignment) {
+        boolean check = true;
+        for (Node child : current.children) {
+            if (!isConsistent(child, color, assignment)) {
+                check = false;
+            }
+        }
+        return check;
     }
 }

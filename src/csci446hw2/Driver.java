@@ -24,21 +24,13 @@ public class Driver {
         Board board = new Board("boards/5x5maze.txt");
         board.print();
         
-        Graph graph = new Graph(board);
+        CSP csp = new CSP(board);
         
-        CSP csp = new CSP(graph);
-        
-        HashMap<Node, Character> result = CSP.backtrackingSearch(csp);
-        
-        char[][] resultBoard = new char[board.size][board.size];
-        
-        for (Map.Entry<Node, Character> entry : result.entrySet()) {
-            resultBoard[entry.getKey().x][entry.getKey().y] = entry.getValue();
-        }
+        char[][] result = CSP.backtrackingSearch(csp);
         
         for (int i = 0; i < board.size; i++) {
             for (int j = 0; j < board.size; j++) {
-                System.out.print(resultBoard[i][j]);
+                System.out.print(result[i][j]);
             }
             System.out.println();
         }

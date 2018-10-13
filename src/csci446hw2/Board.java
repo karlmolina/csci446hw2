@@ -17,6 +17,7 @@ import java.util.Scanner;
 public class Board {
     char[][] grid;
     int size;
+    Node[][] nodes;
     public Board(String fileName) throws FileNotFoundException {
         Scanner in = new Scanner(new File(fileName));
         ArrayList<String> lines = new ArrayList<>();
@@ -26,9 +27,39 @@ public class Board {
         size = lines.size();
         
         grid = new char[size][size];
+        nodes = new Node[size][size];
         
         for (int i = 0; i < size; i++) {
             grid[i] = lines.get(i).toCharArray();
+        }
+        
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                Node current = new Node(i, j);
+                if (grid[i][j] != '_') {
+                    
+                    current.isSource = true;
+                }
+                current.color = grid[i][j];
+                nodes[i][j] = current;
+            }
+        }
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                Node current = nodes[i][j];
+                for (int k = -1; k <= 1; k++) {
+                    for (int l = -1; l <= 1; l++) {
+                        if (Math.abs(k) != Math.abs(l)) {
+                            try {
+                                current.addChild(nodes[i + k][j + l]);
+                            } catch (IndexOutOfBoundsException e) {
+                                //skip
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     
