@@ -11,9 +11,9 @@ package csci446hw2;
  */
 public class Graph {
 
-    private Node[][] nodes;
+    Node[][] nodes;
     int size;
-
+    
     public Graph(Board board) {
         size = board.size;
         nodes = new Node[size][size];
@@ -25,7 +25,7 @@ public class Graph {
                     
                     current.isSource = true;
                 }
-                current.setColor(board.grid[i][j]);
+                current.color = board.grid[i][j];
                 nodes[i][j] = current;
             }
         }
@@ -46,7 +46,5 @@ public class Graph {
                 }
             }
         }
-
-        System.out.println("done");
     }
 }
