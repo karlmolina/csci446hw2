@@ -15,8 +15,7 @@ import java.util.HashSet;
  */
 public class CSP {
 
-    
-
+    static int count = 0;
     HashSet<Node> variables;
     HashSet<Node> unassignedVariables;
     char[][] sourceVariables;
@@ -51,73 +50,48 @@ public class CSP {
     }
 
     public static char[][] recursiveBacktracking(char[][] assignment, CSP csp) {
-        System.out.println();
-        for (int i = 0; i < assignment.length + 1; i++) {
-            for (int j = 0; j < assignment.length + 1; j++) {
-                if (j == 0) {
-                    System.out.print(Math.abs(i - 1));
-                } else if (i == 0) {
-                    System.out.print(j - 1);
-                } else {
-                    System.out.print(assignment[i - 1][j - 1]);
-                }
-            }
-            System.out.println();
-        }
+        //System.out.println(count);
+        //System.out.println();
+//brgyo
         if (csp.unassignedVariables.isEmpty()) {
             return assignment;
         }
         Node current = csp.unassignedVariables.iterator().next();
         csp.unassignedVariables.remove(current);
         for (Character color : csp.domains.get(current)) {
-            if (childrenConsistent(current, color, assignment)) {
+            current.assign(color);
+            count++;
+            //System.out.println(count);
+            //System.out.println("trying " + current);
+            //printArray(assignment);
+            if (current.isConsistent()) {
                 assignment[current.y][current.x] = color;
-                current.isAssigned = true;
-                current.color = color;
+
                 char[][] result = recursiveBacktracking(assignment, csp);
                 if (result != null) {
                     return result;
                 }
                 assignment[current.y][current.x] = '_';
-                current.isAssigned = false;
-                current.color = '_';
             }
+            current.unassign();
         }
         csp.unassignedVariables.add(current);
         return null;
     }
 
-    public static boolean isConsistent(Node node, Character color, char[][] assignment) {
-        int sameColorCount = 0;
-        if (node.isSource) {
-            for (Node child : node.children) {
-                if (child.isAssigned && child.color == color) {
-                    sameColorCount++;
-                }
-                if (sameColorCount > 1) {
-                    return false;
-                }
-            }
-        } else {
-            for (Node child : node.children) {
-                if (child.isAssigned && child.color == color) {
-                    sameColorCount++;
-                }
-                if (sameColorCount > 2) {
-                    return false;
+    static void printArray(char[][] array) {
+        for (int i = 0; i < array.length + 1; i++) {
+            for (int j = 0; j < array.length + 1; j++) {
+                if (j == 0) {
+                    System.out.print(Math.abs(i - 1));
+                } else if (i == 0) {
+                    System.out.print(j - 1);
+                } else {
+                    System.out.print(array[i - 1][j - 1]);
                 }
             }
+            System.out.println();
         }
-        return true;
-    }
-    
-    private static boolean childrenConsistent(Node current, Character color, char[][] assignment) {
-        boolean check = true;
-        for (Node child : current.children) {
-            if (!isConsistent(child, color, assignment)) {
-                check = false;
-            }
-        }
-        return check;
+        System.out.println();
     }
 }

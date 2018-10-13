@@ -35,7 +35,7 @@ public class Board {
         
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                Node current = new Node(i, j);
+                Node current = new Node(j, i);
                 if (grid[i][j] != '_') {
                     
                     current.isSource = true;
