@@ -8,6 +8,7 @@ package csci446hw2;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -19,9 +20,10 @@ public class Driver {
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
      */
-    public static void main(String[] args) throws FileNotFoundException {
-        final int BOARD_SIZE = 14;
-        Board board = new Board("boards/"+BOARD_SIZE+"x"+BOARD_SIZE+"maze.txt");
+    public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException {
+        final int BOARD_SIZE = 12;
+        String boardName = "boards/"+BOARD_SIZE+"x"+BOARD_SIZE+"maze.txt";
+        Board board = new Board("boards/testmaze.txt");
         board.print();
         
         CSP csp = new CSP(board);
@@ -29,6 +31,9 @@ public class Driver {
         char[][] result = Backtracking.search(csp);
         
         board.print();
+        BoardFrame boardFrame = new BoardFrame(result);
+        
+        System.out.println(Class.forName("Color.BLACK"));
         
 //        int[] boardSizes = {5, 7, 8, 9, 10, 12, 14};
 //        
