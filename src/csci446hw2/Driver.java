@@ -20,20 +20,15 @@ public class Driver {
      * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException {
-        
-        Board board = new Board("boards/5x5maze.txt");
+        final int BOARD_SIZE = 14;
+        Board board = new Board("boards/"+BOARD_SIZE+"x"+BOARD_SIZE+"maze.txt");
         board.print();
         
         CSP csp = new CSP(board);
         
-        char[][] result = CSP.backtrackingSearch(csp);
+        char[][] result = Backtracking.search(csp);
         
-        for (int i = 0; i < board.size; i++) {
-            for (int j = 0; j < board.size; j++) {
-                System.out.print(result[i][j]);
-            }
-            System.out.println();
-        }
+        board.print();
         
 //        int[] boardSizes = {5, 7, 8, 9, 10, 12, 14};
 //        

@@ -17,6 +17,7 @@ public class Node {
     int y;
     char color;
     ArrayList<Node> children;
+    int childrenCount = 0, childrenAssigned = 0, childrenSameColor = 0;
     boolean isSource;
 
     public Node(int x, int y) {
@@ -27,6 +28,7 @@ public class Node {
 
     public void addChild(Node child) {
         children.add(child);
+        childrenCount++;
     }
 
     @Override
@@ -46,13 +48,11 @@ public class Node {
     public boolean hasFewEnoughChildren() {
         if (color != '_') {
             if (isSource) {
-                if (childrenAssigned() == childrenCount() && childrenSameColor() != 1) {
+                if (childrenAssigned == childrenCount && childrenSameColor != 1) {
                     return false;
                 }
             } else {
-                if (childrenAssigned() == childrenCount() && childrenSameColor() != 2) {
-                    return false;
-                } else if (childrenAssigned() == childrenCount() - 1 && childrenSameColor() == 0) {
+                if ((childrenAssigned == childrenCount && childrenSameColor != 2) || (childrenAssigned == childrenCount - 1 && childrenSameColor == 0)) {
                     return false;
                 }
             }
@@ -69,7 +69,7 @@ public class Node {
         }
         return count;
     }
-    
+
     public int childrenAssigned() {
         int count = 0;
         for (Node child : children) {
@@ -79,16 +79,30 @@ public class Node {
         }
         return count;
     }
-    
+
     public int childrenCount() {
         return children.size();
     }
 
     public void assign(char color) {
         this.color = color;
+        for (Node child : children) {
+            child.childrenAssigned++;
+            if (child.color == color) {
+                child.childrenSameColor++;
+                childrenSameColor++;
+            }
+        }
     }
 
     public void unassign() {
+        for (Node child : children) {
+            child.childrenAssigned--;
+            if (child.color == color) {
+                child.childrenSameColor--;
+                childrenSameColor--;
+            }
+        }
         this.color = '_';
     }
 

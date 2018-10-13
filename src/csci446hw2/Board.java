@@ -15,9 +15,11 @@ import java.util.Scanner;
  * @author Karl
  */
 public class Board {
+
     char[][] grid;
     int size;
     Node[][] nodes;
+
     public Board(String fileName) throws FileNotFoundException {
         Scanner in = new Scanner(new File(fileName));
         ArrayList<String> lines = new ArrayList<>();
@@ -25,19 +27,18 @@ public class Board {
             lines.add(in.next());
         }
         size = lines.size();
-        
+
         grid = new char[size][size];
         nodes = new Node[size][size];
-        
+
         for (int i = 0; i < size; i++) {
             grid[i] = lines.get(i).toCharArray();
         }
-        
+
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 Node current = new Node(j, i);
                 if (grid[i][j] != '_') {
-                    
                     current.isSource = true;
                 }
                 current.color = grid[i][j];
@@ -61,8 +62,16 @@ public class Board {
                 }
             }
         }
+
+        for (Node[] nodeArray : nodes) {
+            for (Node node : nodeArray) {
+                if (node.color != '_') {
+                    node.assign(node.color);
+                }
+            }
+        }
     }
-    
+
     public void print() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
