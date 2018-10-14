@@ -25,7 +25,6 @@ public class Backtracking {
         //count++;
         
         //System.out.print('.');
-//brgyo
         if (csp.unassignedVariablesList.isEmpty()) {
             return assignment;
         }
@@ -49,7 +48,7 @@ public class Backtracking {
             }
             current.unassign();
         }
-        csp.unassignedVariablesList.push(current);
+        csp.unassignedVariablesList.addFirst(current);
         return null;
     }
     
@@ -61,7 +60,6 @@ public class Backtracking {
         //count++;
         
         //System.out.print('.');
-//brgyo
         if (csp.unassignedVariablesPQ.isEmpty()) {
             return assignment;
         }

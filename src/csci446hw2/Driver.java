@@ -23,7 +23,7 @@ public class Driver {
      * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException {
-        final int BOARD_SIZE = 9;
+        final int BOARD_SIZE = 12;
         String boardName = "boards/"+BOARD_SIZE+"x"+BOARD_SIZE+"maze.txt";
         //Board board = new Board("boards/testmaze.txt");
         Board board = new Board(boardName);
