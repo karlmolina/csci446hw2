@@ -6,6 +6,7 @@
 package csci446hw2;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  *
@@ -17,11 +18,18 @@ public class Node {
     int y;
     char color;
     ArrayList<Node> children;
+    ArrayList<Node> nodeDomain;
+    Node child;
     int childrenCount = 0, childrenAssigned = 0, childrenSameColor = 0;
     boolean isSource;
+    HashSet<Character> domain;
+    HashSet<Node> sources;
 
     public Node(int x, int y) {
+        nodeDomain = new ArrayList<>();
         children = new ArrayList<>();
+        domain = new HashSet<>();
+        sources = new HashSet<>();
         this.x = x;
         this.y = y;
     }
@@ -87,5 +95,31 @@ public class Node {
         }
         this.color = '_';
     }
-
+    
+    public void setDomain() {
+        for (Node child : children) {
+            if (child.color == '_') {
+                nodeDomain.add(child);
+            }
+        }
+    }
+    
+    public boolean domainEmpty() {
+        return nodeDomain.isEmpty();
+    }
+    
+    public boolean foundColor() {
+        for (Node child : children) {
+            if (child.color == color && !sources.contains(child)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void updateChildrenDomain() {
+        for (Node child: children) {
+            child.nodeDomain.remove(this);
+        }
+    }
 }

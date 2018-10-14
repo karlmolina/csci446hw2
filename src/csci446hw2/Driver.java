@@ -23,7 +23,7 @@ public class Driver {
      * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException {
-        final int BOARD_SIZE = 12;
+        final int BOARD_SIZE = 10;
         String boardName = "boards/"+BOARD_SIZE+"x"+BOARD_SIZE+"maze.txt";
         //Board board = new Board("boards/testmaze.txt");
         Board board = new Board(boardName);
@@ -33,9 +33,11 @@ public class Driver {
         
         boardFrame = new BoardFrame(board.grid);
         boardFrame.f.repaint();
-        char[][] result = Backtracking.dumbSearch(csp);
+        char[][] result = Backtracking.smartSearch(csp);
+        //char[][] result = Backtracking.dumbSearch(csp);
         //Backtracking.smartSearch(csp);
         boardFrame.f.repaint();
+        board.print();
         //boardFrame = new BoardFrame(board.grid);
         
        // System.out.println(Class.forName("Color.BLACK"));
