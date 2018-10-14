@@ -17,11 +17,12 @@ import javax.swing.JPanel;
 public class BoardFrame {
     public static final int NODE_SIZE = 40;
     private BoardPanel boardPanel;
+    JFrame f;
 
     public BoardFrame(char[][] board) {
         boardPanel = new BoardPanel(board);
 
-        JFrame f = new JFrame();
+        f = new JFrame();
         int size = NODE_SIZE * (board.length + 2);
         f.setSize(size, size);
         f.add(boardPanel);
@@ -41,7 +42,7 @@ public class BoardFrame {
         public void paint(Graphics g) {
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board.length; j++) {
-                    g.setColor(Color.getHSBColor((float) ((board[i][j]-60)/25.0), 1, 1));
+                    g.setColor(Board.colorOfChar(board[i][j]));
                     g.fillRect(j*NODE_SIZE, i*NODE_SIZE, NODE_SIZE, NODE_SIZE);
                 }
             }

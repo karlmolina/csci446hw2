@@ -59,35 +59,16 @@ public class Node {
         }
         return true;
     }
-
-    public int childrenSameColor() {
-        int count = 0;
-        for (Node child : children) {
-            if (this.color == child.color) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public int childrenAssigned() {
-        int count = 0;
-        for (Node child : children) {
-            if (child.color != '_') {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public int childrenCount() {
-        return children.size();
+    
+    public int childrenUnassigned() {
+        return childrenCount - childrenAssigned;
     }
 
     public void assign(char color) {
         this.color = color;
         for (Node child : children) {
             child.childrenAssigned++;
+            
             if (child.color == color) {
                 child.childrenSameColor++;
                 childrenSameColor++;
@@ -98,6 +79,7 @@ public class Node {
     public void unassign() {
         for (Node child : children) {
             child.childrenAssigned--;
+            
             if (child.color == color) {
                 child.childrenSameColor--;
                 childrenSameColor--;

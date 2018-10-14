@@ -17,29 +17,31 @@ public class Backtracking {
     //static int count;
     //static Instant now = Instant.now();
     
-    public static char[][] search(CSP csp) {
-        return recursiveSearch(csp.sourceVariables, csp);
+    public static char[][] dumbSearch(CSP csp) {
+        return dumbRecursiveSearch(csp.sourceVariables, csp);
     }
 
-    public static char[][] recursiveSearch(char[][] assignment, CSP csp) {
+    public static char[][] dumbRecursiveSearch(char[][] assignment, CSP csp) {
         //count++;
         
         //System.out.print('.');
 //brgyo
-        if (csp.unassignedVariables.isEmpty()) {
+        if (csp.unassignedVariablesList.isEmpty()) {
             return assignment;
         }
-        Node current = csp.unassignedVariables.pop();
+        Node current = csp.unassignedVariablesList.removeFirst();
         for (Character color : csp.domains.get(current)) {
             current.assign(color);
             //count++;
             //System.out.println(count);
             //System.out.println("trying " + current);
             //printArray(assignment);
+            //Driver.boardFrame.f.repaint();
+            //Driver.boardFrame.f.revalidate();
             if (current.isConsistent()) {
                 assignment[current.y][current.x] = color;
 
-                char[][] result = recursiveSearch(assignment, csp);
+                char[][] result = dumbRecursiveSearch(assignment, csp);
                 if (result != null) {
                     return result;
                 }
@@ -47,7 +49,43 @@ public class Backtracking {
             }
             current.unassign();
         }
-        csp.unassignedVariables.push(current);
+        csp.unassignedVariablesList.push(current);
+        return null;
+    }
+    
+    public static char[][] smartSearch(CSP csp) {
+        return smartRecursiveSearch(csp.sourceVariables, csp);
+    }
+
+    public static char[][] smartRecursiveSearch(char[][] assignment, CSP csp) {
+        //count++;
+        
+        //System.out.print('.');
+//brgyo
+        if (csp.unassignedVariablesPQ.isEmpty()) {
+            return assignment;
+        }
+        Node current = csp.unassignedVariablesPQ.remove();
+        for (Character color : csp.domains.get(current)) {
+            current.assign(color);
+            //count++;
+            //System.out.println(count);
+            //System.out.println("trying " + current);
+            //printArray(assignment);
+            Driver.boardFrame.f.repaint();
+            Driver.boardFrame.f.revalidate();
+            if (current.isConsistent()) {
+                assignment[current.y][current.x] = color;
+
+                char[][] result = smartRecursiveSearch(assignment, csp);
+                if (result != null) {
+                    return result;
+                }
+                assignment[current.y][current.x] = '_';
+            }
+            current.unassign();
+        }
+        csp.unassignedVariablesPQ.add(current);
         return null;
     }
 

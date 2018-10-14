@@ -5,6 +5,7 @@
  */
 package csci446hw2;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -78,6 +79,39 @@ public class Board {
                 System.out.print(grid[i][j]);
             }
             System.out.println();
+        }
+    }
+
+    public static Color colorOfChar(char c) {
+        switch (c) {
+            case 'O':
+                return Color.ORANGE;
+            case 'C':
+                return Color.CYAN;
+            case 'M':
+                return Color.MAGENTA;
+            case 'Y':
+                return Color.YELLOW;
+            case 'B':
+                return Color.BLUE;
+            case 'D':
+                return Color.RED.darker();
+            case 'G':
+                return Color.GREEN;
+            case 'R':
+                return Color.RED;
+            case 'A':
+                return Color.GRAY;
+            case 'W':
+                return Color.WHITE;
+            case 'P': 
+                return Color.PINK;
+            case 'K':
+                return Color.CYAN.darker();
+            case 'Q':
+                return Color.DARK_GRAY;
+            default:
+                return Color.BLACK;
         }
     }
 }
