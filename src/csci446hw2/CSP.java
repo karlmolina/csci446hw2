@@ -26,19 +26,26 @@ public class CSP {
     char[][] sourceVariables;
     HashMap<Node, HashSet<Character>> domains;
     PriorityQueue<Node> nodeVariables;
+    HashMap<Character, HashSet<Node>> sourceColorToNodeMap;
+    
 
     public CSP(Board board) {
         nodeVariables = new PriorityQueue<>( (Node a, Node b) -> a.nodeDomain.size() - b.nodeDomain.size());
         sourceVariables = board.grid;
         variables = board.nodes;
         unassignedVariablesList = new LinkedList<>();
-        unassignedVariablesPQ = new PriorityQueue<>((Node a, Node b) -> b.childrenUnassigned() - a.childrenUnassigned());
+        unassignedVariablesPQ = new PriorityQueue<>((Node a, Node b) -> b.childrenAssigned - a.childrenAssigned);
         domains = new HashMap<>();
+        sourceColorToNodeMap = new HashMap<>();
         HashSet<Character> allColors = new HashSet<>();
         for (Node[] nodeArray : board.nodes) {
             for (Node node : nodeArray) {
                 if (node.isSource) {
                     allColors.add(node.color);
+                    if (!sourceColorToNodeMap.containsKey(node.color)) {
+                        sourceColorToNodeMap.put(node.color, new HashSet<>());
+                    }
+                    sourceColorToNodeMap.get(node.color).add(node);
                 } else {
                     unassignedVariablesList.addFirst(node);
                     unassignedVariablesPQ.add(node);
@@ -56,10 +63,10 @@ public class CSP {
                     node.domain.addAll(allColors);
                 } else {
                     node.setDomain();
-                    if (!hasColor.get(node.color)) {
+                    //if (!hasColor.get(node.color)) {
                         nodeVariables.add(node);
-                        hasColor.put(node.color, true);
-                    }
+                    //    hasColor.put(node.color, true);
+                    //}
                 }
             }
         }

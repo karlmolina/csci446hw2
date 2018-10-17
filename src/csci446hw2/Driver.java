@@ -17,31 +17,45 @@ import javafx.scene.paint.Color;
  * @author Karl
  */
 public class Driver {
+
     public static BoardFrame boardFrame;
+    public static boolean ANIMATE = true;
+    public static int search = 0;
+
     /**
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException {
         final int BOARD_SIZE = 10;
-        String boardName = "boards/"+BOARD_SIZE+"x"+BOARD_SIZE+"maze.txt";
+        String boardName = "boards/" + BOARD_SIZE + "x" + BOARD_SIZE + "maze.txt";
         //Board board = new Board("boards/testmaze.txt");
         Board board = new Board(boardName);
         board.print();
-        
+
         CSP csp = new CSP(board);
-        
+
         boardFrame = new BoardFrame(board.grid);
         boardFrame.f.repaint();
-        char[][] result = Backtracking.smartSearch(csp);
-        //char[][] result = Backtracking.dumbSearch(csp);
-        //Backtracking.smartSearch(csp);
+        //char[][] result = Backtracking.smartSearch(csp);
+        long then = System.currentTimeMillis();
+        switch (search) {
+            case 0:
+                Backtracking.dumbSearch(csp);
+                break;
+            case 1:
+                Backtracking.dumbSearch2(csp);
+                break;
+            case 2:
+                Backtracking.smartSearch(csp);
+                break;
+        }
+        System.out.println((System.currentTimeMillis() - then) / 1000.0);
         boardFrame.f.repaint();
         board.print();
         //boardFrame = new BoardFrame(board.grid);
-        
-       // System.out.println(Class.forName("Color.BLACK"));
-        
+
+        // System.out.println(Class.forName("Color.BLACK"));
 //        int[] boardSizes = {5, 7, 8, 9, 10, 12, 14};
 //        
 //        for (int i = 0; i < boardSizes.length; i++) {

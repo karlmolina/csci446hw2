@@ -5,6 +5,7 @@
  */
 package csci446hw2;
 
+import static csci446hw2.Driver.ANIMATE;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
@@ -32,13 +33,16 @@ public class Backtracking {
         Node current = csp.unassignedVariablesList.removeFirst();
         for (Character color : current.domain) {
             current.assign(color);
-            //count++;
-            //System.out.println(count);
-            //System.out.println("trying " + current);
-            //printArray(assignment);
-            //Driver.boardFrame.f.repaint();
-            //Driver.boardFrame.f.revalidate();
-            if (current.isConsistent()) {
+//            if (current.connected.containsAll(csp.sourceColorToNodeMap.get(current.color))) {
+//                for (Node node : csp.unassignedVariablesList) {
+//                    node.domain.remove(current.color);
+//                }
+//            }
+            if (ANIMATE) {
+                Driver.boardFrame.f.repaint();
+                Driver.boardFrame.f.revalidate();
+            }
+            if (current.isConsistent(assignment)) {
                 assignment[current.y][current.x] = color;
 
                 char[][] result = dumbRecursiveSearch(assignment, csp);
@@ -53,6 +57,50 @@ public class Backtracking {
         return null;
     }
 
+    public static char[][] dumbSearch2(CSP csp) {
+        return dumbRecursiveSearch2(csp.sourceVariables, csp);
+    }
+
+    public static char[][] dumbRecursiveSearch2(char[][] assignment, CSP csp) {
+        //count++;
+
+        //System.out.print('.');
+//brgyo
+        if (csp.unassignedVariablesPQ.isEmpty()) {
+            return assignment;
+        }
+        Node current = csp.unassignedVariablesPQ.poll();
+        for (Character color : current.domain) {
+            current.assign(color);
+//            if (current.connected.containsAll(csp.sourceColorToNodeMap.get(current.color))) {
+//                for (Node node : csp.unassignedVariablesList) {
+//                    node.domain.remove(current.color);
+//                }
+//            }
+            for (Node child : current.children) {
+                if (csp.unassignedVariablesPQ.remove(child)) {
+                    csp.unassignedVariablesPQ.add(child);
+                }
+            }
+            if (ANIMATE) {
+                Driver.boardFrame.f.repaint();
+                Driver.boardFrame.f.revalidate();
+            }
+            if (current.isConsistent(assignment)) {
+                assignment[current.y][current.x] = color;
+
+                char[][] result = dumbRecursiveSearch2(assignment, csp);
+                if (result != null) {
+                    return result;
+                }
+                assignment[current.y][current.x] = '_';
+            }
+            current.unassign();
+        }
+        csp.unassignedVariablesPQ.add(current);
+        return null;
+    }
+
     public static char[][] smartSearch(CSP csp) {
         return smartRecursiveSearch(csp.sourceVariables, csp);
     }
@@ -63,7 +111,7 @@ public class Backtracking {
         //System.out.print('.');
 //brgyo
         //Node current = csp.unassignedVariablesList.removeFirst();
-        Node current;
+        Node current = null;
         do {
             if (csp.nodeVariables.isEmpty()) {
                 return assignment;
@@ -75,7 +123,7 @@ public class Backtracking {
             current.child = child;
             child.color = current.color;
             child.setDomain();
-            
+
             child.sources.addAll(current.sources);
             boolean violateConstraint = false;
             for (Node childChild : child.children) {
@@ -93,21 +141,20 @@ public class Backtracking {
             }
             child.sources.add(current);
             csp.nodeVariables.add(child);
-            //count++;
-            //System.out.println(count);
-            //System.out.println("trying " + current);
-            //printArray(assignment);
             assignment[child.y][child.x] = child.color;
 
-            Driver.boardFrame.f.repaint();
-            Driver.boardFrame.f.revalidate();
-
-            char[][] result = smartRecursiveSearch(assignment, csp);
-            if (result != null) {
-                return result;
+            if (ANIMATE) {
+                Driver.boardFrame.f.repaint();
+                Driver.boardFrame.f.revalidate();
+            }
+            if (child.isConsistent(assignment)) {
+                char[][] result = smartRecursiveSearch(assignment, csp);
+                if (result != null) {
+                    return result;
+                }
             }
             assignment[child.y][child.x] = '_';
-            
+
             csp.nodeVariables.remove(child);
             child.color = '_';
             child.sources.clear();
@@ -120,7 +167,7 @@ public class Backtracking {
             }
             child.nodeDomain.clear();
         }
-        
+
         csp.nodeVariables.add(current);
         return null;
     }

@@ -24,12 +24,14 @@ public class Node {
     boolean isSource;
     HashSet<Character> domain;
     HashSet<Node> sources;
+    HashSet<Node> connected;
 
     public Node(int x, int y) {
         nodeDomain = new ArrayList<>();
         children = new ArrayList<>();
         domain = new HashSet<>();
         sources = new HashSet<>();
+        connected = new HashSet<>();
         this.x = x;
         this.y = y;
     }
@@ -41,10 +43,16 @@ public class Node {
 
     @Override
     public String toString() {
-        return color + " : " + x + ", " + y;
+        return color + " : " + x + ", " + y + " domainSize: " + nodeDomain.size();
     }
 
-    public boolean isConsistent() {
+    public boolean isConsistent(char[][] assignment) {
+        if (y < assignment.length - 1 && x < assignment.length - 1 && assignment[y+1][x] == color && assignment[y][x+1] == color && assignment[y+1][x+1] == color) {
+            return false;
+        }
+        if (x > 0 && y < assignment.length - 1 && assignment[y+1][x] == color && assignment[y][x-1] == color && assignment[y+1][x-1] == color) {
+            return false;
+        }
         for (Node child : children) {
             if (!child.hasFewEnoughChildren()) {
                 return false;
@@ -80,6 +88,8 @@ public class Node {
             if (child.color == color) {
                 child.childrenSameColor++;
                 childrenSameColor++;
+                connected.add(child);
+                connected.addAll(child.connected);
             }
         }
     }
@@ -91,6 +101,8 @@ public class Node {
             if (child.color == color) {
                 child.childrenSameColor--;
                 childrenSameColor--;
+                connected.remove(child);
+                connected.removeAll(child.connected);
             }
         }
         this.color = '_';
