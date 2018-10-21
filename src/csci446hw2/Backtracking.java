@@ -108,11 +108,6 @@ public class Backtracking {
     }
 
     public static char[][] smartRecursiveSearch(char[][] assignment, CSP csp) {
-        //count++;
-
-        //System.out.print('.');
-//brgyo
-        //Node current = csp.unassignedVariablesList.removeFirst();
         Node current = null;
         do {
             if (csp.expandableNodes.isEmpty()) {
@@ -130,8 +125,8 @@ public class Backtracking {
             current.child = next;
             next.setDomain();
 
-//            next.sources.addAll(current.sources);
-//            boolean violateConstraint = false;
+            next.sources.addAll(current.sources);
+            boolean violateConstraint = false;
             for (Node child : next.children) {
 //                if (next.sources.contains(child)) {
 //                    violateConstraint = true;
@@ -145,7 +140,7 @@ public class Backtracking {
 //            if (violateConstraint) {
 //                continue;
 //            }
-//            next.sources.add(current);
+            next.sources.add(current);
             csp.expandableNodes.add(next);
 
             

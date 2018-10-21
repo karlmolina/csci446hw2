@@ -148,7 +148,7 @@ public class Node {
 
     public boolean foundColor() {
         for (Node child : children) {
-            if (child.color == color){// && !sources.contains(child)) {
+            if (child.color == color && !sources.contains(child)) {
                 return true;
             }
         }
