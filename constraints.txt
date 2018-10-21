@@ -1,0 +1,91 @@
+# assigned - # samecolor
+blank samecolor means children that have the samecolor as eachother
+
+2 children count
+	source
+		ok
+			0 assigned
+			1 assigned 0, 1
+			2 assigned 1 samecolor
+		not ok
+			2 assigned 0, 2 samecolor
+	not source
+		ok
+			0 assigned
+			1 assigned 0, 1 samecolor
+			2 assigned 2 samecolor
+		not ok
+			2 assigned 0, 1 samecolor
+	blank
+		ok
+			0 assigned
+			1 - 
+			2 - 2
+		not ok	
+			2 - 0
+3 children count
+	source
+		ok
+			0 assigned
+			1 assigned 0, 1
+			2 assigned 0, 1
+			3 assigned 1 samecolor
+		not ok
+			2 assigned 2
+			3 assigned 0, 2
+	not source
+		ok
+			0 assigned
+			1 assigned 0, 1
+			2 assigned 1, 2 samecolor
+			3 assigned 2 samecolor
+		not ok
+			2 assigned 0 samecolor
+			3 assigned 0, 1, 3 samecolor
+	blank
+		ok
+			0 assigned
+			1 - 
+			2 - 0, 2
+			3 - only 2 can be samecolor
+		not ok	
+			3 - 0, 3
+4 children count
+	source
+		ok
+			0 assigned
+			1 assigned 0, 1
+			2 assigned 0, 1
+			3 assigned 0, 1
+			4 assigned 1 samecolor
+		not ok
+			2 assigned 2
+			3 assigned 2, 3
+			4 assigned 0, 2, 3, 4 samecolor
+	not source
+		ok
+			0 assigned
+			1 assigned 0, 1
+			2 assigned 0, 1, 2
+			3 assigned 1, 2 samecolor
+			4 assigned 2 samecolor
+		not ok
+			3 assigned 0, 3 samecolor
+			4 assigned 0, 1, 3, 4 samecolor
+			
+
+source      - samecolor can never be over 1
+			- if assigned == numchildren, samecolor must be 2
+			
+not source  - samecolor can never be over 2
+			- if assigned == numchildren, samecolor must be 2
+			
+blank   	- samecolor can never be over 2
+			- if assigned == numchildren, samecolor must be 2
+GGGOOOO
+GBGGGYO
+GBBBRYO
+GYYYRYO
+GYRRRYO
+GYRYYYO
+GYYYOOO
