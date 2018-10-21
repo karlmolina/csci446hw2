@@ -67,7 +67,7 @@ public class Board {
         for (Node[] nodeArray : nodes) {
             for (Node node : nodeArray) {
                 if (node.color != '_') {
-                    node.assign(node.color);
+                    node.assign(node.color, grid);
                 }
             }
         }

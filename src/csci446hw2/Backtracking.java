@@ -5,10 +5,10 @@
  */
 package csci446hw2;
 
-import static csci446hw2.Driver.ANIMATE;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
+import static csci446hw2.Driver.animate;
 
 /**
  *
@@ -32,26 +32,28 @@ public class Backtracking {
         }
         Node current = csp.unassignedVariablesList.removeFirst();
         for (Character color : current.domain) {
-            current.assign(color);
+            
 //            if (current.connected.containsAll(csp.sourceColorToNodeMap.get(current.color))) {
 //                for (Node node : csp.unassignedVariablesList) {
 //                    node.domain.remove(current.color);
 //                }
 //            }
-            if (ANIMATE) {
+            current.assign(color, assignment);
+            assignment[current.y][current.x] = color;
+            
+            if (animate == 1) {
                 Driver.boardFrame.f.repaint();
                 Driver.boardFrame.f.revalidate();
             }
             if (current.isConsistent(assignment)) {
-                assignment[current.y][current.x] = color;
+                
 
                 char[][] result = dumbRecursiveSearch(assignment, csp);
                 if (result != null) {
                     return result;
                 }
-                assignment[current.y][current.x] = '_';
             }
-            current.unassign();
+            current.unassign(assignment);
         }
         csp.unassignedVariablesList.addFirst(current);
         return null;
@@ -71,7 +73,7 @@ public class Backtracking {
         }
         Node current = csp.unassignedVariablesPQ.poll();
         for (Character color : current.domain) {
-            current.assign(color);
+            current.assign(color, assignment);
 //            if (current.connected.containsAll(csp.sourceColorToNodeMap.get(current.color))) {
 //                for (Node node : csp.unassignedVariablesList) {
 //                    node.domain.remove(current.color);
@@ -82,12 +84,12 @@ public class Backtracking {
                     csp.unassignedVariablesPQ.add(child);
                 }
             }
-            if (ANIMATE) {
+            if (animate == 1) {
                 Driver.boardFrame.f.repaint();
                 Driver.boardFrame.f.revalidate();
             }
             if (current.isConsistent(assignment)) {
-                assignment[current.y][current.x] = color;
+                
 
                 char[][] result = dumbRecursiveSearch2(assignment, csp);
                 if (result != null) {
@@ -95,7 +97,7 @@ public class Backtracking {
                 }
                 assignment[current.y][current.x] = '_';
             }
-            current.unassign();
+            current.unassign(assignment);
         }
         csp.unassignedVariablesPQ.add(current);
         return null;
@@ -113,62 +115,61 @@ public class Backtracking {
         //Node current = csp.unassignedVariablesList.removeFirst();
         Node current = null;
         do {
-            if (csp.nodeVariables.isEmpty()) {
+            if (csp.expandableNodes.isEmpty()) {
                 return assignment;
             }
-            current = csp.nodeVariables.poll();
+            current = csp.expandableNodes.poll();
         } while (current.foundColor());
 
-        for (Node child : current.nodeDomain) {
-            current.child = child;
-            child.color = current.color;
-            child.setDomain();
-
-            child.sources.addAll(current.sources);
-            boolean violateConstraint = false;
-            for (Node childChild : child.children) {
-                if (child.sources.contains(childChild)) {
-                    violateConstraint = true;
-                }
-                if (csp.nodeVariables.contains(childChild)) {
-                    childChild.nodeDomain.remove(child);
-                    csp.nodeVariables.remove(childChild);
-                    csp.nodeVariables.add(childChild);
-                }
-            }
-            if (violateConstraint) {
-                continue;
-            }
-            child.sources.add(current);
-            csp.nodeVariables.add(child);
-            assignment[child.y][child.x] = child.color;
-
-            if (ANIMATE) {
+        for (Node next : current.nodeDomain) {
+            next.assign(current.color, assignment);
+            if (animate == 1) {
                 Driver.boardFrame.f.repaint();
                 Driver.boardFrame.f.revalidate();
             }
-            if (child.isConsistent(assignment)) {
+            current.child = next;
+            next.setDomain();
+
+//            next.sources.addAll(current.sources);
+//            boolean violateConstraint = false;
+            for (Node child : next.children) {
+//                if (next.sources.contains(child)) {
+//                    violateConstraint = true;
+//                }
+                if (csp.expandableNodes.contains(child)) {
+                    child.nodeDomain.remove(next);
+                    csp.expandableNodes.remove(child);
+                    csp.expandableNodes.add(child);
+                }
+            }
+//            if (violateConstraint) {
+//                continue;
+//            }
+//            next.sources.add(current);
+            csp.expandableNodes.add(next);
+
+            
+            if (next.isConsistent(assignment)) {
                 char[][] result = smartRecursiveSearch(assignment, csp);
                 if (result != null) {
                     return result;
                 }
             }
-            assignment[child.y][child.x] = '_';
+            next.unassign(assignment);
 
-            csp.nodeVariables.remove(child);
-            child.color = '_';
-            child.sources.clear();
-            for (Node childChild : child.children) {
-                if (csp.nodeVariables.contains(childChild)) {
-                    childChild.nodeDomain.add(child);
+            csp.expandableNodes.remove(next);
+            next.sources.clear();
+            for (Node childChild : next.children) {
+                if (csp.expandableNodes.contains(childChild)) {
+                    childChild.nodeDomain.add(next);
 //                    csp.nodeVariables.remove(childChild);
 //                    csp.nodeVariables.add(childChild);
                 }
             }
-            child.nodeDomain.clear();
+            next.nodeDomain.clear();
         }
 
-        csp.nodeVariables.add(current);
+        csp.expandableNodes.add(current);
         return null;
     }
 

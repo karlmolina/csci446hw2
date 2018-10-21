@@ -6,6 +6,7 @@
 package csci446hw2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -25,6 +26,7 @@ public class Node {
     HashSet<Character> domain;
     HashSet<Node> sources;
     HashSet<Node> connected;
+    HashMap<Character, Integer> childrenColorCount;
 
     public Node(int x, int y) {
         nodeDomain = new ArrayList<>();
@@ -32,6 +34,7 @@ public class Node {
         domain = new HashSet<>();
         sources = new HashSet<>();
         connected = new HashSet<>();
+        childrenColorCount = new HashMap<>();
         this.x = x;
         this.y = y;
     }
@@ -47,44 +50,66 @@ public class Node {
     }
 
     public boolean isConsistent(char[][] assignment) {
-        if (y < assignment.length - 1 && x < assignment.length - 1 && assignment[y+1][x] == color && assignment[y][x+1] == color && assignment[y+1][x+1] == color) {
+        //check for squares of the same color to the bottom right
+        if (y < assignment.length - 1 && x < assignment.length - 1 && assignment[y + 1][x] == color && assignment[y][x + 1] == color && assignment[y + 1][x + 1] == color) {
             return false;
         }
-        if (x > 0 && y < assignment.length - 1 && assignment[y+1][x] == color && assignment[y][x-1] == color && assignment[y+1][x-1] == color) {
+        //check for square of the same color to the bottom left
+        if (x > 0 && y < assignment.length - 1 && assignment[y + 1][x] == color && assignment[y][x - 1] == color && assignment[y + 1][x - 1] == color) {
             return false;
         }
+        //check each child to see if they are consistent
         for (Node child : children) {
-            if (!child.hasFewEnoughChildren()) {
+            if (child.color == '_') {
+//                if (!child.isConsistentBlank(color)) {
+//                    return false;
+//                }
+
+            } else if (!child.isConsistentWithChildren()) {
                 return false;
             }
+
         }
-        return hasFewEnoughChildren();
+        return isConsistentWithChildren();
     }
 
-    public boolean hasFewEnoughChildren() {
-        if (color != '_') {
-            if (isSource) {
-                if (childrenAssigned == childrenCount && childrenSameColor != 1) {
-                    return false;
-                }
-            } else {
-                if ((childrenAssigned == childrenCount && childrenSameColor != 2) || (childrenAssigned == childrenCount - 1 && childrenSameColor == 0)) {
-                    return false;
-                }
+    public boolean isConsistentBlank(char color) {
+        if (childrenColorCount.get(color) > 2) {
+            return false;
+        }
+//        if (childrenAssigned == childrenCount && childrenColorCount.get(color) != 2) {
+//            return false;
+//        }
+        return true;
+    }
+
+    public boolean isConsistentWithChildren() {
+        if (isSource) {
+            if (childrenAssigned == childrenCount && childrenSameColor != 1) {
+                return false;
+            }
+        } else {
+            if ((childrenAssigned == childrenCount && childrenSameColor != 2) || (childrenAssigned == childrenCount - 1 && childrenSameColor == 0)) {
+                return false;
             }
         }
         return true;
     }
-    
+
     public int childrenUnassigned() {
         return childrenCount - childrenAssigned;
     }
 
-    public void assign(char color) {
+    public void assign(char color, char[][] assignment) {
         this.color = color;
+        assignment[y][x] = color;
         for (Node child : children) {
             child.childrenAssigned++;
-            
+            if (child.childrenColorCount.containsKey(color)) {
+                child.childrenColorCount.put(color, child.childrenColorCount.get(color) + 1);
+            } else {
+                child.childrenColorCount.put(color, 1);
+            }
             if (child.color == color) {
                 child.childrenSameColor++;
                 childrenSameColor++;
@@ -94,10 +119,11 @@ public class Node {
         }
     }
 
-    public void unassign() {
+    public void unassign(char[][] assignment) {
+        assignment[y][x] = '_';
         for (Node child : children) {
             child.childrenAssigned--;
-            
+            child.childrenColorCount.put(color, child.childrenColorCount.get(color) - 1);
             if (child.color == color) {
                 child.childrenSameColor--;
                 childrenSameColor--;
@@ -107,7 +133,7 @@ public class Node {
         }
         this.color = '_';
     }
-    
+
     public void setDomain() {
         for (Node child : children) {
             if (child.color == '_') {
@@ -115,22 +141,22 @@ public class Node {
             }
         }
     }
-    
+
     public boolean domainEmpty() {
         return nodeDomain.isEmpty();
     }
-    
+
     public boolean foundColor() {
         for (Node child : children) {
-            if (child.color == color && !sources.contains(child)) {
+            if (child.color == color){// && !sources.contains(child)) {
                 return true;
             }
         }
         return false;
     }
-    
+
     public void updateChildrenDomain() {
-        for (Node child: children) {
+        for (Node child : children) {
             child.nodeDomain.remove(this);
         }
     }

@@ -19,15 +19,17 @@ import javafx.scene.paint.Color;
 public class Driver {
 
     public static BoardFrame boardFrame;
-    public static boolean ANIMATE = true;
-    public static int search = 0;
+    public static int animate = 1;
+    public static int search = 2;
+    // possible boards 5, 7, 8, 9, 10, 12, 14
+    public static int BOARD_SIZE = 5;
 
     /**
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException {
-        final int BOARD_SIZE = 10;
+        System.out.println(BOARD_SIZE + "x" + BOARD_SIZE);
         String boardName = "boards/" + BOARD_SIZE + "x" + BOARD_SIZE + "maze.txt";
         //Board board = new Board("boards/testmaze.txt");
         Board board = new Board(boardName);
