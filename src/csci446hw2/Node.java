@@ -61,9 +61,9 @@ public class Node {
         //check each child to see if they are consistent
         for (Node child : children) {
             if (child.color == '_') {
-//                if (!child.isConsistentBlank(color)) {
-//                    return false;
-//                }
+                if (!child.isConsistentBlank(color)) {
+                    return false;
+                }
 
             } else if (!child.isConsistentWithChildren()) {
                 return false;

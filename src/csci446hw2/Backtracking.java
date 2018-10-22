@@ -32,7 +32,7 @@ public class Backtracking {
         }
         Node current = csp.unassignedVariablesList.removeFirst();
         for (Character color : current.domain) {
-            
+
 //            if (current.connected.containsAll(csp.sourceColorToNodeMap.get(current.color))) {
 //                for (Node node : csp.unassignedVariablesList) {
 //                    node.domain.remove(current.color);
@@ -40,13 +40,12 @@ public class Backtracking {
 //            }
             current.assign(color, assignment);
             assignment[current.y][current.x] = color;
-            
+
             if (animate == 1) {
                 Driver.boardFrame.f.repaint();
                 Driver.boardFrame.f.revalidate();
             }
             if (current.isConsistent(assignment)) {
-                
 
                 char[][] result = dumbRecursiveSearch(assignment, csp);
                 if (result != null) {
@@ -89,7 +88,6 @@ public class Backtracking {
                 Driver.boardFrame.f.revalidate();
             }
             if (current.isConsistent(assignment)) {
-                
 
                 char[][] result = dumbRecursiveSearch2(assignment, csp);
                 if (result != null) {
@@ -108,13 +106,10 @@ public class Backtracking {
     }
 
     public static char[][] smartRecursiveSearch(char[][] assignment, CSP csp) {
-        Node current = null;
-        do {
-            if (csp.expandableNodes.isEmpty()) {
-                return assignment;
-            }
-            current = csp.expandableNodes.poll();
-        } while (current.foundColor());
+        if (csp.expandableNodes.isEmpty()) {
+            return assignment;
+        }
+        Node current = csp.expandableNodes.poll();
 
         for (Node next : current.nodeDomain) {
             next.assign(current.color, assignment);
@@ -127,23 +122,31 @@ public class Backtracking {
 
             next.sources.addAll(current.sources);
             boolean violateConstraint = false;
+            boolean colorComplete = false;
             for (Node child : next.children) {
 //                if (next.sources.contains(child)) {
 //                    violateConstraint = true;
 //                }
                 if (csp.expandableNodes.contains(child)) {
-                    child.nodeDomain.remove(next);
-                    csp.expandableNodes.remove(child);
-                    csp.expandableNodes.add(child);
+                    if (child.color == next.color) {
+                        csp.expandableNodes.remove(child);
+                        colorComplete = true;
+                    } else {
+                        child.nodeDomain.remove(next);
+                        csp.expandableNodes.remove(child);
+                        csp.expandableNodes.add(child);
+                    }
                 }
             }
 //            if (violateConstraint) {
 //                continue;
 //            }
-            next.sources.add(current);
-            csp.expandableNodes.add(next);
 
-            
+            next.sources.add(current);
+            if (!colorComplete) {
+                csp.expandableNodes.add(next);
+            }
+
             if (next.isConsistent(assignment)) {
                 char[][] result = smartRecursiveSearch(assignment, csp);
                 if (result != null) {
@@ -154,11 +157,15 @@ public class Backtracking {
 
             csp.expandableNodes.remove(next);
             next.sources.clear();
-            for (Node childChild : next.children) {
-                if (csp.expandableNodes.contains(childChild)) {
-                    childChild.nodeDomain.add(next);
-//                    csp.nodeVariables.remove(childChild);
-//                    csp.nodeVariables.add(childChild);
+            for (Node child : next.children) {
+                if (csp.expandableNodes.contains(child)) {
+                    if (child.color == next.color) {
+                        csp.expandableNodes.add(child);
+                    } else {
+                        child.nodeDomain.add(next);
+                        csp.expandableNodes.remove(child);
+                        csp.expandableNodes.add(child);
+                    }
                 }
             }
             next.nodeDomain.clear();

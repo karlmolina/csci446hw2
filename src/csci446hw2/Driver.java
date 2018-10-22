@@ -22,7 +22,7 @@ public class Driver {
     public static int animate = 1;
     public static int search = 2;
     // possible boards 5, 7, 8, 9, 10, 12, 14
-    public static int BOARD_SIZE = 5;
+    public static int BOARD_SIZE = 9;
 
     /**
      * @param args the command line arguments
