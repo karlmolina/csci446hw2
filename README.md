@@ -1,3 +1,6 @@
+Montana State University
+CSCI 446 Artificial Intelligence Fall 2018
+Mary Ann Cummings
 # Assignment 2: Constraint Satisfaction Problem
 
 ```
