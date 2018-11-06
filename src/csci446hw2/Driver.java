@@ -6,11 +6,6 @@
 package csci446hw2;
 
 import java.io.FileNotFoundException;
-import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-import javafx.scene.paint.Color;
 
 /**
  *
@@ -22,7 +17,7 @@ public class Driver {
     public static int animate = 1;
     public static int search = 2;
     // possible boards 5, 7, 8, 9, 10, 12, 14
-    public static int BOARD_SIZE = 9;
+    public static int BOARD_SIZE = 5;
 
     /**
      * @param args the command line arguments
@@ -40,6 +35,9 @@ public class Driver {
         boardFrame = new BoardFrame(board.grid);
         boardFrame.f.repaint();
         //char[][] result = Backtracking.smartSearch(csp);
+        
+        OneChildSolve.Execute(csp);
+        
         long then = System.currentTimeMillis();
         switch (search) {
             case 0:
