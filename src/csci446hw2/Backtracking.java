@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalTime;
 import static csci446hw2.Driver.animate;
+import java.util.HashSet;
 
 /**
  *
@@ -31,6 +32,12 @@ public class Backtracking {
             return assignment;
         }
         Node current = csp.unassignedVariablesList.removeFirst();
+
+//        for (Node node : current.children) {
+//            if (!node.isBlank()) {
+//                char c = node.color;
+//            }
+//        }
         for (Character color : current.domain) {
 
 //            if (current.connected.containsAll(csp.sourceColorToNodeMap.get(current.color))) {
@@ -45,14 +52,37 @@ public class Backtracking {
                 Driver.boardFrame.f.repaint();
                 Driver.boardFrame.f.revalidate();
             }
-            if (current.isConsistent(assignment)) {
+            HashSet<Node> assigned = new HashSet<>();
 
+            if (current.isConsistent(assignment)) {
+                for (Node child : current.children) {
+                    if (!child.isBlank() && !child.isComplete && child.childrenUnassigned() == 1) {
+                        for (Node node : child.children) {
+                            if (node.isBlank()) {
+                                //remove the node from csp.unassignedVariableList
+                                
+                                node.assign(child.color, assignment);
+                                if (node.isConsistent(assignment)) {
+                                    assigned.add(node);
+                                    csp.unassignedVariablesList.remove(node);
+                                } else {
+                                    node.unassign(assignment);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
                 char[][] result = dumbRecursiveSearch(assignment, csp);
                 if (result != null) {
                     return result;
                 }
             }
             current.unassign(assignment);
+            for (Node node : assigned) {
+                node.unassign(assignment);
+                csp.unassignedVariablesList.add(node);
+            }
         }
         csp.unassignedVariablesList.addFirst(current);
         return null;

@@ -14,10 +14,10 @@ import java.io.FileNotFoundException;
 public class Driver {
 
     public static BoardFrame boardFrame;
-    public static int animate = 1;
+    public static int animate = 0;
     public static int search = 0;
     // possible boards 5, 7, 8, 9, 10, 12, 14
-    public static int BOARD_SIZE = 7;
+    public static int BOARD_SIZE = 8;
 
     /**
      * @param args the command line arguments
