@@ -88,20 +88,4 @@ public class Backtracking {
         csp.expandableNodes.add(current);
         return null;
     }
-
-    static void printArray(char[][] array) {
-        for (int i = 0; i < array.length + 1; i++) {
-            for (int j = 0; j < array.length + 1; j++) {
-                if (j == 0) {
-                    System.out.print(Math.abs(i - 1));
-                } else if (i == 0) {
-                    System.out.print(j - 1);
-                } else {
-                    System.out.print(array[i - 1][j - 1]);
-                }
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
 }
