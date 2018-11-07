@@ -35,21 +35,11 @@ public class Driver {
         boardFrame = new BoardFrame(board.grid);
         boardFrame.f.repaint();
         //char[][] result = Backtracking.smartSearch(csp);
-        
-        OneChildSolve.Execute(csp);
-        
+
         long then = System.currentTimeMillis();
-        switch (search) {
-            case 0:
-                Backtracking.dumbSearch(csp);
-                break;
-            case 1:
-                Backtracking.dumbSearch2(csp);
-                break;
-            case 2:
-                Backtracking.smartSearch(csp);
-                break;
-        }
+        
+        Backtracking.orange(csp);
+        
         System.out.println((System.currentTimeMillis() - then) / 1000.0);
         boardFrame.f.repaint();
         board.print();
