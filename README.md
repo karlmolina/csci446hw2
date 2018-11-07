@@ -4,7 +4,7 @@ Mary Ann Cummings
 # Assignment 2: Constraint Satisfaction Problem
 
 ```
-Deadline: Monday, November 12, 11:59:59PM
+Deadline: Thursday, November 15, 11:59:59PM
 ```
 As on Assignment 1, you have the option of working in groups of up to three
 people. You are free to either stay with the same team or pick a new one.
