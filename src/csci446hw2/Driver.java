@@ -15,9 +15,9 @@ public class Driver {
 
     public static BoardFrame boardFrame;
     public static int animate = 1;
-    public static int search = 2;
+    public static int search = 0;
     // possible boards 5, 7, 8, 9, 10, 12, 14
-    public static int BOARD_SIZE = 5;
+    public static int BOARD_SIZE = 7;
 
     /**
      * @param args the command line arguments

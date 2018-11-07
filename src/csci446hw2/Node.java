@@ -22,7 +22,7 @@ public class Node {
     ArrayList<Node> nodeDomain;
     Node child;
     int childrenCount = 0, childrenAssigned = 0, childrenSameColor = 0;
-    boolean isSource;
+    boolean isSource, isComplete;
     HashSet<Character> domain;
     HashSet<Node> sources;
     HashSet<Node> connected;
@@ -116,6 +116,24 @@ public class Node {
                 connected.add(child);
                 connected.addAll(child.connected);
             }
+            if (child.isSource) {
+                if (child.childrenSameColor == 1) {
+                    child.isComplete = true;
+                }
+            } else {
+                if (child.childrenSameColor == 2) {
+                    child.isComplete = true;
+                }
+            }
+        }
+        if (this.isSource) {
+            if (childrenSameColor == 1) {
+                isComplete = true;
+            }
+        } else {
+            if (childrenSameColor == 2) {
+                isComplete = true;
+            }
         }
     }
 
@@ -129,6 +147,24 @@ public class Node {
                 childrenSameColor--;
                 connected.remove(child);
                 connected.removeAll(child.connected);
+            }
+            if (child.isSource) {
+                if (child.childrenSameColor != 1) {
+                    child.isComplete = false;
+                }
+            } else {
+                if (child.childrenSameColor != 2) {
+                    child.isComplete = false;
+                }
+            }
+        }
+        if (this.isSource) {
+            if (childrenSameColor != 1) {
+                isComplete = false;
+            }
+        } else {
+            if (childrenSameColor != 2) {
+                isComplete = false;
             }
         }
         this.color = '_';
@@ -159,5 +195,9 @@ public class Node {
         for (Node child : children) {
             child.nodeDomain.remove(this);
         }
+    }
+
+    public boolean isBlank() {
+        return color == '_';
     }
 }

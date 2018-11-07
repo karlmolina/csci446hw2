@@ -14,15 +14,21 @@ import java.util.Iterator;
  */
 public class OneChildSolve {
 
+    /**
+     * Goes through unassigned variables in the csp and assigns them if they
+     * have a child with only one unassigned child
+     * @param csp 
+     */
     public static void Execute(CSP csp) {
-        boolean check = false;
+        boolean check;
         do {
+            check = false;
             Iterator<Node> iter = csp.unassignedVariablesList.iterator();
             while (iter.hasNext()) {
                 Node unassignedVariable = iter.next();
                 boolean breakCheck = false;
                 for (Node child : unassignedVariable.children) {
-                    if (child.color != '_' && child.childrenCount - child.childrenAssigned == 1) {
+                    if (!child.isBlank() && !child.isComplete && child.childrenUnassigned() == 1) {
                         unassignedVariable.assign(child.color, csp.sourceVariables);
                         breakCheck = true;
                         iter.remove();
