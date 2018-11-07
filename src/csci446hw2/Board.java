@@ -114,4 +114,37 @@ public class Board {
                 return Color.BLACK;
         }
     }
+    
+    public static String stringOfChar(char c) {
+        switch (c) {
+            case 'O':
+                return "ORANGE";
+            case 'C':
+                return "CYAN";
+            case 'M':
+                return "MAGENTA";
+            case 'Y':
+                return "YELLOW";
+            case 'B':
+                return "BLUE";
+            case 'D':
+                return "DARK RED";
+            case 'G':
+                return "GREEN";
+            case 'R':
+                return "RED";
+            case 'A':
+                return "GRAY";
+            case 'W':
+                return "WHITE";
+            case 'P': 
+                return "PINK";
+            case 'K':
+                return "DARK CYAN";
+            case 'Q':
+                return "DARK GRAY";
+            default:
+                return "BLACK";
+        }
+    }
 }

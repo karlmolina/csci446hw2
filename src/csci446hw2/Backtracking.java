@@ -15,6 +15,7 @@ import static csci446hw2.Driver.animate;
  * @author Karl
  */
 public class Backtracking {
+
     public static char[][] orange(CSP csp) {
         return orange(csp.sourceVariables, csp);
     }
@@ -37,16 +38,23 @@ public class Backtracking {
             next.sources.addAll(current.sources);
             boolean violateConstraint = false;
             boolean colorComplete = false;
+            Node nodeComplete = null;
             for (Node child : next.children) {
 //                if (next.sources.contains(child)) {
 //                    violateConstraint = true;
 //                }
                 if (csp.expandableNodes.contains(child)) {
+                    // If you found the same color expandable node
                     if (child.color == next.color) {
+                        // This color is complete
                         csp.expandableNodes.remove(child);
+                        nodeComplete = child;
                         colorComplete = true;
                     } else {
+                        // That child can no longer go to next
                         child.nodeDomain.remove(next);
+                        // Remove and add child from expandable Nodes to update
+                        // the priority queue
                         csp.expandableNodes.remove(child);
                         csp.expandableNodes.add(child);
                     }
@@ -57,6 +65,8 @@ public class Backtracking {
 //            }
 
             next.sources.add(current);
+            // If the color is not complete next should be added to expandable
+            // Nodes
             if (!colorComplete) {
                 csp.expandableNodes.add(next);
             }
@@ -67,9 +77,16 @@ public class Backtracking {
                     return result;
                 }
             }
+            // This code is run when the past assignment failed
+            
             next.unassign(assignment);
 
             csp.expandableNodes.remove(next);
+            // If the color was complete we must add the complete node back
+            // to the expandable nodes.
+            if (colorComplete) {
+                csp.expandableNodes.add(nodeComplete);
+            }
             next.sources.clear();
             for (Node child : next.children) {
                 if (csp.expandableNodes.contains(child)) {

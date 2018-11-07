@@ -46,7 +46,7 @@ public class Node {
 
     @Override
     public String toString() {
-        return color + " : " + x + ", " + y + " domainSize: " + nodeDomain.size();
+        return Board.stringOfChar(color) + " : " + x + ", " + y + " domainSize: " + nodeDomain.size();
     }
 
     public boolean isConsistent(char[][] assignment) {
