@@ -20,8 +20,12 @@ public class Individual implements Comparable{
 
     @Override
     public int compareTo(Object o) {
-        return ((Individual)o).fitness - this.fitness;
+        //return ((Individual)o).fitness - this.fitness;
+        return this.fitness - ((Individual)o).fitness;
     }
     
-    
+    @Override
+    public String toString() {
+        return "" + fitness;
+    }
 }
