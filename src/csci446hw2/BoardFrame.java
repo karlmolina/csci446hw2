@@ -20,7 +20,7 @@ public class BoardFrame {
     private BoardPanel boardPanel;
     JFrame f;
 
-    public BoardFrame(char[][] board) {
+    public BoardFrame(Character[][] board) {
         boardPanel = new BoardPanel(board);
 
         f = new JFrame();
@@ -33,9 +33,9 @@ public class BoardFrame {
 
     private class BoardPanel extends JPanel {
 
-        char[][] board;
+        Character[][] board;
 
-        public BoardPanel(char[][] board) {
+        public BoardPanel(Character[][] board) {
             this.board = board;
         }
 

@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 /**
@@ -17,9 +18,11 @@ import java.util.Scanner;
  */
 public class Board {
 
-    char[][] grid;
+    Character[][] grid;
+    boolean[][] sources;
     int size;
     Node[][] nodes;
+    Character[] colors;
 
     public Board(String fileName) throws FileNotFoundException {
         Scanner in = new Scanner(new File(fileName));
@@ -29,23 +32,30 @@ public class Board {
         }
         size = lines.size();
 
-        grid = new char[size][size];
+        grid = new Character[size][size];
+        sources = new boolean[size][size];
         nodes = new Node[size][size];
 
         for (int i = 0; i < size; i++) {
-            grid[i] = lines.get(i).toCharArray();
+            for (int j = 0; j < size; j++) {
+                grid[i][j] = lines.get(i).toCharArray()[j];
+            }
         }
 
+        HashSet<Character> colorsSet = new HashSet<>();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 Node current = new Node(j, i);
                 if (grid[i][j] != '_') {
                     current.isSource = true;
+                    sources[i][j] = true;
+                    colorsSet.add(grid[i][j]);
                 }
                 current.color = grid[i][j];
                 nodes[i][j] = current;
             }
         }
+        colors = colorsSet.toArray(new Character[colorsSet.size()]);
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {

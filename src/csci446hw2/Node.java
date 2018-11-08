@@ -17,7 +17,7 @@ public class Node {
 
     int x;
     int y;
-    char color;
+    Character color;
     ArrayList<Node> children;
     ArrayList<Node> nodeDomain;
     Node child;
@@ -49,7 +49,7 @@ public class Node {
         return Board.stringOfChar(color) + " : " + x + ", " + y + " domainSize: " + nodeDomain.size();
     }
 
-    public boolean isConsistent(char[][] assignment) {
+    public boolean isConsistent(Character[][] assignment) {
         //check for squares of the same color to the bottom right
         if (y < assignment.length - 1 && x < assignment.length - 1 && assignment[y + 1][x] == color && assignment[y][x + 1] == color && assignment[y + 1][x + 1] == color) {
             return false;
@@ -73,7 +73,7 @@ public class Node {
         return isConsistentWithChildren();
     }
 
-    public boolean isConsistentBlank(char color) {
+    public boolean isConsistentBlank(Character color) {
         if (childrenColorCount.get(color) > 2) {
             return false;
         }
@@ -100,7 +100,7 @@ public class Node {
         return childrenCount - childrenAssigned;
     }
 
-    public void assign(char color, char[][] assignment) {
+    public void assign(Character color, Character[][] assignment) {
         this.color = color;
         assignment[y][x] = color;
         for (Node child : children) {
@@ -137,7 +137,7 @@ public class Node {
         }
     }
 
-    public void unassign(char[][] assignment) {
+    public void unassign(Character[][] assignment) {
         assignment[y][x] = '_';
         for (Node child : children) {
             child.childrenAssigned--;

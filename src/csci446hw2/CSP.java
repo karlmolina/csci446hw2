@@ -19,7 +19,7 @@ public class CSP {
     Node[][] variables;
     LinkedList<Node> unassignedVariablesList;
     PriorityQueue<Node> unassignedVariablesPQ;
-    char[][] sourceVariables;
+    Character[][] sourceVariables;
     HashMap<Node, HashSet<Character>> domains;
     PriorityQueue<Node> expandableNodes;
     HashMap<Character, HashSet<Node>> sourceColorToNodeMap;

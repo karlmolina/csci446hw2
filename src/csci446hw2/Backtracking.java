@@ -16,11 +16,11 @@ import static csci446hw2.Driver.animate;
  */
 public class Backtracking {
     static int counter = 0;
-    public static char[][] orange(CSP csp) {
+    public static Character[][] orange(CSP csp) {
         return orange(csp.sourceVariables, csp);
     }
 
-    public static char[][] orange(char[][] assignment, CSP csp) {
+    public static Character[][] orange(Character[][] assignment, CSP csp) {
         if (csp.expandableNodes.isEmpty()) {
             return assignment;
         }
@@ -73,7 +73,7 @@ public class Backtracking {
             }
 
             if (next.isConsistent(assignment)) {
-                char[][] result = orange(assignment, csp);
+                Character[][] result = orange(assignment, csp);
                 if (result != null) {
                     return result;
                 }
