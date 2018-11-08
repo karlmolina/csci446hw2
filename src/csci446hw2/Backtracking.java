@@ -15,7 +15,7 @@ import static csci446hw2.Driver.animate;
  * @author Karl
  */
 public class Backtracking {
-
+    static int counter = 0;
     public static char[][] orange(CSP csp) {
         return orange(csp.sourceVariables, csp);
     }
@@ -25,8 +25,9 @@ public class Backtracking {
             return assignment;
         }
         Node current = csp.expandableNodes.poll();
-
+        
         for (Node next : current.nodeDomain) {
+            //System.out.println(counter++);
             next.assign(current.color, assignment);
             if (animate == 1) {
                 Driver.boardFrame.f.repaint();
@@ -34,7 +35,7 @@ public class Backtracking {
             }
             current.child = next;
             next.setDomain();
-
+            
             next.sources.addAll(current.sources);
             boolean violateConstraint = false;
             boolean colorComplete = false;
@@ -80,13 +81,12 @@ public class Backtracking {
             // This code is run when the past assignment failed
             
             next.unassign(assignment);
-
-            csp.expandableNodes.remove(next);
-            // If the color was complete we must add the complete node back
-            // to the expandable nodes.
-            if (colorComplete) {
-                csp.expandableNodes.add(nodeComplete);
+            if (animate == 1) {
+                Driver.boardFrame.f.repaint();
+                Driver.boardFrame.f.revalidate();
             }
+            csp.expandableNodes.remove(next);
+            
             next.sources.clear();
             for (Node child : next.children) {
                 if (csp.expandableNodes.contains(child)) {
@@ -98,6 +98,12 @@ public class Backtracking {
                         csp.expandableNodes.add(child);
                     }
                 }
+            }
+            
+            // If the color was complete we must add the complete node back
+            // to the expandable nodes.
+            if (colorComplete) {
+                csp.expandableNodes.add(nodeComplete);
             }
             next.nodeDomain.clear();
         }
