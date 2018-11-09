@@ -8,6 +8,7 @@ package csci446hw2;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 /**
  *
@@ -23,7 +24,7 @@ public class Node {
     Node child;
     int childrenCount = 0, childrenAssigned = 0, childrenSameColor = 0;
     boolean isSource, isComplete;
-    HashSet<Character> domain;
+    LinkedList<Character> domain;
     HashSet<Node> sources;
     HashSet<Node> connected;
     HashMap<Character, Integer> childrenColorCount;
@@ -31,7 +32,7 @@ public class Node {
     public Node(int x, int y) {
         nodeDomain = new ArrayList<>();
         children = new ArrayList<>();
-        domain = new HashSet<>();
+        domain = new LinkedList<>();
         sources = new HashSet<>();
         connected = new HashSet<>();
         childrenColorCount = new HashMap<>();
