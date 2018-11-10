@@ -19,12 +19,10 @@ public class Backtracking {
     }
 
     public static char[][] apple(char[][] assignment, CSP csp) {
-//        if (csp.unassignedVariablesList.isEmpty()) {
-//            // The puzzle was solved
-//            return assignment;
-//        }
-        //Node current = csp.unassignedVariablesList.removeFirst();
+        // Get an unassigned variable from the csp
         Node current = csp.selectUnassignedVariable();
+        
+        // If there are no more unassigned variables then we are done
         if (current == null) {
             return assignment;
         }
@@ -97,7 +95,6 @@ public class Backtracking {
 
         // Reset the current's domain. 
         //current.domain = currentDomainCopy;
-        //csp.unassignedVariablesList.addFirst(current);
         return null;
     }
 }

@@ -19,7 +19,6 @@ public class Node {
     int x, y;
     char color;
     ArrayList<Node> children;
-    int childrenCount = 0, childrenAssigned = 0, childrenSameColor = 0;
     boolean isSource, isComplete;
     LinkedList<Character> domain;
     HashMap<Character, Integer> childrenColorCount;
@@ -34,7 +33,6 @@ public class Node {
 
     public void addChild(Node child) {
         children.add(child);
-        childrenCount++;
     }
 
     @Override
@@ -68,9 +66,9 @@ public class Node {
             return false;
         }
         //for (Character clr: domain) {
-            
-       // }
-//        if (childrenAssigned == childrenCount && childrenColorCount.get(color) != 2) {
+
+        // }
+//        if (childrenAssigned == children.size() && childrenColorCount.get(color) != 2) {
 //            return false;
 //        }
         return true;
@@ -78,6 +76,8 @@ public class Node {
 
     public boolean isConsistentWithChildren() {
         int childrenAssigned = 0, childrenSameColor = 0;
+        // Count the amount of children that are assigned
+        // and the amount of children that are the same color as this node
         for (Node child : children) {
             if (!child.isBlank()) {
                 childrenAssigned++;
@@ -86,12 +86,28 @@ public class Node {
                 }
             }
         }
+
+        // If the node is a source and all of its children are assigned,
+        // then it must have only 1 child that is the same color as it
         if (isSource) {
-            if (childrenAssigned == childrenCount && childrenSameColor != 1) {
+            
+            if (childrenAssigned == children.size() && childrenSameColor != 1) {
                 return false;
             }
+            // It can never have more than 1 child of the same color
+            if (childrenSameColor > 1) {
+                return false;
+            }
+            
+        // If the node is not a source and all its children are assigned,
+        // then it must have exactly 2 children that are the same color as it
         } else {
-            if ((childrenAssigned == childrenCount && childrenSameColor != 2) || (childrenAssigned == childrenCount - 1 && childrenSameColor == 0)) {
+            
+            if ((childrenAssigned == children.size() && childrenSameColor != 2) || (childrenAssigned == children.size() - 1 && childrenSameColor == 0)) {
+                return false;
+            }
+            // It can never have more than 2 children with the same color
+            if (childrenSameColor > 2) {
                 return false;
             }
         }
@@ -117,10 +133,6 @@ public class Node {
         }
 
         return true;
-    }
-
-    public int childrenUnassigned() {
-        return childrenCount - childrenAssigned;
     }
 
     public void assign(char color, char[][] assignment) {
