@@ -41,15 +41,14 @@ public class Node {
     }
 
     public boolean isConsistent(char[][] assignment) {
-
         if (!isConsistentSquares(assignment)) {
             return false;
         }
 
         //check each child to see if they are consistent
         for (Node child : children) {
-            if (child.color == '_') {
-//                if (!child.isConsistentBlank(color)) {
+            if (child.isBlank()) {
+//                if (!child.isConsistentBlank(assignment)) {
 //                    return false;
 //                }
 
@@ -61,20 +60,44 @@ public class Node {
         return isConsistentWithChildren();
     }
 
-    public boolean isConsistentBlank() {
-        if (childrenColorCount.get(color) > 2) {
-            return false;
+    public boolean isConsistentBlank(char[][] assignment) {
+//        if (childrenColorCount.get(color) > 2) {
+//            return false;
+//        }
+        boolean isConsistent = false;
+        for (Character color: domain) {
+            assign(color, assignment);
+            if (isConsistentNoBlankCheck(assignment)) {
+                isConsistent = true;
+            }
+            unassign(assignment);
+            if (isConsistent) {
+                break;
+            }
         }
-        //for (Character clr: domain) {
-
-        // }
 //        if (childrenAssigned == children.size() && childrenColorCount.get(color) != 2) {
 //            return false;
 //        }
-        return true;
+        return isConsistent;
+    }
+    
+    private boolean isConsistentNoBlankCheck(char[][] assignment) {
+        if (!isConsistentSquares(assignment)) {
+            return false;
+        }
+
+        //check each child to see if they are consistent
+        for (Node child : children) {
+            if (!child.isBlank() && !child.isConsistentWithChildren()) {
+                return false;
+            }
+
+        }
+        
+        return isConsistentWithChildren();
     }
 
-    public boolean isConsistentWithChildren() {
+    private boolean isConsistentWithChildren() {
         int childrenAssigned = 0, childrenSameColor = 0;
         // Count the amount of children that are assigned
         // and the amount of children that are the same color as this node
