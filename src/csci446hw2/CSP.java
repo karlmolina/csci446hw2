@@ -18,16 +18,12 @@ import javafx.util.Pair;
 public class CSP {
 
     LinkedList<Node> unassignedVariablesList;
-    PriorityQueue<Node> unassignedVariablesPQ;
     char[][] sourceVariables;
-    PriorityQueue<Node> expandableNodes;
     HashMap<Character, LinkedList<Node>> sourceColorToNodeMap;
 
     public CSP(Board board) {
-        expandableNodes = new PriorityQueue<>((Node a, Node b) -> a.nodeDomain.size() - b.nodeDomain.size());
         sourceVariables = board.grid;
         unassignedVariablesList = new LinkedList<>();
-        unassignedVariablesPQ = new PriorityQueue<>((Node a, Node b) -> b.childrenAssigned - a.childrenAssigned);
         sourceColorToNodeMap = new HashMap<>();
         HashSet<Character> allColors = new HashSet<>();
 
