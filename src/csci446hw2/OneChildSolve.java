@@ -5,8 +5,8 @@
  */
 package csci446hw2;
 
-import static csci446hw2.Driver.animate;
 import java.util.Iterator;
+import static csci446hw2.Driver.ANIMATE;
 
 /**
  *
@@ -33,7 +33,7 @@ public class OneChildSolve {
                         breakCheck = true;
                         iter.remove();
                         check = true;
-                        if (animate == 1) {
+                        if (ANIMATE == 1) {
                             Driver.boardFrame.f.repaint();
                             Driver.boardFrame.f.revalidate();
                         }
