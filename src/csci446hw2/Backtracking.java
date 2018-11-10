@@ -6,6 +6,7 @@
 package csci446hw2;
 
 import static csci446hw2.Driver.ANIMATE;
+import java.util.LinkedList;
 
 /**
  *
@@ -18,18 +19,53 @@ public class Backtracking {
 
     public static char[][] apple(char[][] assignment, CSP csp) {
         if (csp.unassignedVariablesList.isEmpty()) {
+            // The puzzle was solved
             return assignment;
         }
         Node current = csp.unassignedVariablesList.removeFirst();
+        
+        // Order domain so that it tries the colors
+        // next to the current node first.
+        // This heuristic makes the 14x14 very fast 
+        // (4.602 seconds)
+        
+        // Hold a clone of the current.domain to change back
+        // if it fails
+        LinkedList<Character> currentDomainCopy = (LinkedList<Character>) current.domain.clone();
+        
+        // Clear the domain
+        current.domain.clear();
+        // Add the colors next to the current node
+        // to its domain
+        for (Node child: current.children) {
+            if (!child.isBlank()) {
+                current.domain.add(child.color);
+            }
+        }
+        // Add back the rest of the colors
+        for (Character color : currentDomainCopy) {
+            if (!current.domain.contains(color)) {
+                current.domain.add(color);
+            }
+        }
+        
+        // Try to assign the colors in the current node's
+        // domain
         for (Character color : current.domain) {
             current.assign(color, assignment);
-            assignment[current.y][current.x] = color;
 
+            // Show the animation of the graphics
             if (ANIMATE == 1) {
                 Driver.boardFrame.f.repaint();
                 Driver.boardFrame.f.revalidate();
             }
+            
             if (current.isConsistent(assignment)) {
+                // Check for a complete path for the color
+                // that you just added.
+                // If the color has a complete path, then
+                // we will remove it from all the domains
+                // of all the unassigned nodes.
                 boolean pathComplete = false;
                 if (PathComplete.check(csp, color)) {
                     pathComplete = true;
@@ -41,6 +77,11 @@ public class Backtracking {
                 if (result != null) {
                     return result;
                 }
+                // This is the backtracking
+                // We must undo all our changes above.
+                
+                // Add the color back to the nodes if
+                // the path was complete.
                 if (pathComplete) {
                     for (Node node : csp.unassignedVariablesList) {
                         node.domain.addFirst(color);
@@ -49,23 +90,10 @@ public class Backtracking {
             }
             current.unassign(assignment);
         }
+        
+        // Reset the current's domain. 
+        current.domain = currentDomainCopy;
         csp.unassignedVariablesList.addFirst(current);
         return null;
-    }
-
-    static void printArray(char[][] array) {
-        for (int i = 0; i < array.length + 1; i++) {
-            for (int j = 0; j < array.length + 1; j++) {
-                if (j == 0) {
-                    System.out.print(Math.abs(i - 1));
-                } else if (i == 0) {
-                    System.out.print(j - 1);
-                } else {
-                    System.out.print(array[i - 1][j - 1]);
-                }
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 }
