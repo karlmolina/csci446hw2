@@ -38,7 +38,7 @@ public class CSP {
                     }
                     sourceColorToNodeMap.get(node.color).add(node);
                 } else {
-                    unassignedVariablesList.addFirst(node);
+                    unassignedVariablesList.addLast(node);
                 }
             }
         }
@@ -80,5 +80,16 @@ public class CSP {
         public int compareTo(Object o) {
             return this.distance - ((ColorDistancePair) o).distance;
         }
+    }
+    
+    public Node selectUnassignedVariable() {
+        Node returnNode = null;
+        for (Node node : unassignedVariablesList) {
+            if (node.isBlank()) {
+                returnNode = node;
+                break;
+            }
+        }
+        return returnNode;
     }
 }

@@ -19,14 +19,12 @@ public class Node {
     int x, y;
     char color;
     ArrayList<Node> children;
-    ArrayList<Node> nodeDomain;
     int childrenCount = 0, childrenAssigned = 0, childrenSameColor = 0;
     boolean isSource, isComplete;
     LinkedList<Character> domain;
     HashMap<Character, Integer> childrenColorCount;
 
     public Node(int x, int y) {
-        nodeDomain = new ArrayList<>();
         children = new ArrayList<>();
         domain = new LinkedList<>();
         childrenColorCount = new HashMap<>();
@@ -41,7 +39,7 @@ public class Node {
 
     @Override
     public String toString() {
-        return color + " : " + x + ", " + y + " domainSize: " + nodeDomain.size();
+        return color + " : " + x + ", " + y;
     }
 
     public boolean isConsistent(char[][] assignment) {
@@ -53,9 +51,9 @@ public class Node {
         //check each child to see if they are consistent
         for (Node child : children) {
             if (child.color == '_') {
-                if (!child.isConsistentBlank(color)) {
-                    return false;
-                }
+//                if (!child.isConsistentBlank(color)) {
+//                    return false;
+//                }
 
             } else if (!child.isConsistentWithChildren()) {
                 return false;
@@ -65,7 +63,7 @@ public class Node {
         return isConsistentWithChildren();
     }
 
-    public boolean isConsistentBlank(char color) {
+    public boolean isConsistentBlank() {
         if (childrenColorCount.get(color) > 2) {
             return false;
         }
@@ -79,6 +77,15 @@ public class Node {
     }
 
     public boolean isConsistentWithChildren() {
+        int childrenAssigned = 0, childrenSameColor = 0;
+        for (Node child : children) {
+            if (!child.isBlank()) {
+                childrenAssigned++;
+                if (child.color == this.color) {
+                    childrenSameColor++;
+                }
+            }
+        }
         if (isSource) {
             if (childrenAssigned == childrenCount && childrenSameColor != 1) {
                 return false;
@@ -119,66 +126,10 @@ public class Node {
     public void assign(char color, char[][] assignment) {
         this.color = color;
         assignment[y][x] = color;
-        for (Node child : children) {
-            child.childrenAssigned++;
-            if (child.childrenColorCount.containsKey(color)) {
-                child.childrenColorCount.put(color, child.childrenColorCount.get(color) + 1);
-            } else {
-                child.childrenColorCount.put(color, 1);
-            }
-            if (child.color == color) {
-                child.childrenSameColor++;
-                childrenSameColor++;
-            }
-            if (child.isSource) {
-                if (child.childrenSameColor == 1) {
-                    child.isComplete = true;
-                }
-            } else {
-                if (child.childrenSameColor == 2) {
-                    child.isComplete = true;
-                }
-            }
-        }
-        if (this.isSource) {
-            if (childrenSameColor == 1) {
-                isComplete = true;
-            }
-        } else {
-            if (childrenSameColor == 2) {
-                isComplete = true;
-            }
-        }
     }
 
     public void unassign(char[][] assignment) {
         assignment[y][x] = '_';
-        for (Node child : children) {
-            child.childrenAssigned--;
-            child.childrenColorCount.put(color, child.childrenColorCount.get(color) - 1);
-            if (child.color == color) {
-                child.childrenSameColor--;
-                childrenSameColor--;
-            }
-            if (child.isSource) {
-                if (child.childrenSameColor != 1) {
-                    child.isComplete = false;
-                }
-            } else {
-                if (child.childrenSameColor != 2) {
-                    child.isComplete = false;
-                }
-            }
-        }
-        if (this.isSource) {
-            if (childrenSameColor != 1) {
-                isComplete = false;
-            }
-        } else {
-            if (childrenSameColor != 2) {
-                isComplete = false;
-            }
-        }
         this.color = '_';
     }
 
