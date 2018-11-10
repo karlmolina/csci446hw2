@@ -16,25 +16,19 @@ import java.util.LinkedList;
  */
 public class Node {
 
-    int x;
-    int y;
+    int x, y;
     char color;
     ArrayList<Node> children;
     ArrayList<Node> nodeDomain;
-    Node child;
     int childrenCount = 0, childrenAssigned = 0, childrenSameColor = 0;
     boolean isSource, isComplete;
     LinkedList<Character> domain;
-    HashSet<Node> sources;
-    HashSet<Node> connected;
     HashMap<Character, Integer> childrenColorCount;
 
     public Node(int x, int y) {
         nodeDomain = new ArrayList<>();
         children = new ArrayList<>();
         domain = new LinkedList<>();
-        sources = new HashSet<>();
-        connected = new HashSet<>();
         childrenColorCount = new HashMap<>();
         this.x = x;
         this.y = y;
@@ -114,8 +108,6 @@ public class Node {
             if (child.color == color) {
                 child.childrenSameColor++;
                 childrenSameColor++;
-                connected.add(child);
-                connected.addAll(child.connected);
             }
             if (child.isSource) {
                 if (child.childrenSameColor == 1) {
@@ -146,8 +138,6 @@ public class Node {
             if (child.color == color) {
                 child.childrenSameColor--;
                 childrenSameColor--;
-                connected.remove(child);
-                connected.removeAll(child.connected);
             }
             if (child.isSource) {
                 if (child.childrenSameColor != 1) {
@@ -169,33 +159,6 @@ public class Node {
             }
         }
         this.color = '_';
-    }
-
-    public void setDomain() {
-        for (Node child : children) {
-            if (child.color == '_') {
-                nodeDomain.add(child);
-            }
-        }
-    }
-
-    public boolean domainEmpty() {
-        return nodeDomain.isEmpty();
-    }
-
-    public boolean foundColor() {
-        for (Node child : children) {
-            if (child.color == color && !sources.contains(child)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void updateChildrenDomain() {
-        for (Node child : children) {
-            child.nodeDomain.remove(this);
-        }
     }
 
     public boolean isBlank() {

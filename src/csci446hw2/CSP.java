@@ -17,7 +17,6 @@ import javafx.util.Pair;
  */
 public class CSP {
 
-    Node[][] variables;
     LinkedList<Node> unassignedVariablesList;
     PriorityQueue<Node> unassignedVariablesPQ;
     char[][] sourceVariables;
@@ -27,7 +26,6 @@ public class CSP {
     public CSP(Board board) {
         expandableNodes = new PriorityQueue<>((Node a, Node b) -> a.nodeDomain.size() - b.nodeDomain.size());
         sourceVariables = board.grid;
-        variables = board.nodes;
         unassignedVariablesList = new LinkedList<>();
         unassignedVariablesPQ = new PriorityQueue<>((Node a, Node b) -> b.childrenAssigned - a.childrenAssigned);
         sourceColorToNodeMap = new HashMap<>();
@@ -45,7 +43,6 @@ public class CSP {
                     sourceColorToNodeMap.get(node.color).add(node);
                 } else {
                     unassignedVariablesList.addFirst(node);
-                    unassignedVariablesPQ.add(node);
                 }
             }
         }
@@ -66,22 +63,9 @@ public class CSP {
             }
         }
         
-        //Collections.shuffle(unassignedVariables);
-        HashMap<Character, Boolean> hasColor = new HashMap<>();
-        for (Character color : allColors) {
-            hasColor.put(color, false);
-        }
-        for (Node[] nodes : variables) {
-            for (Node node : nodes) {
-                if (!node.isSource) {
-                    //node.domain.addAll(allColors);
-                } else {
-                    node.setDomain();
-                    //if (!hasColor.get(node.color)) {
-                    expandableNodes.add(node);
-                    //    hasColor.put(node.color, true);
-                    //}
-                }
+        for (Node node : unassignedVariablesList) {
+            if (!node.isSource) {
+                //node.domain.addAll(allColors);
             }
         }
     }
