@@ -16,9 +16,9 @@ public class Driver {
     public static BoardFrame boardFrame;
     // Whether to animate the solving of the puzzle or not
     // 1 means animate, 0 means don't
-    public static final int ANIMATE = 1,
+    public static int ANIMATE = 0,
             // possible boards 5, 7, 8, 9, 10, 12, 14
-            BOARD_SIZE = 12;
+            BOARD_SIZE = 14;
 
     /**
      * @param args the command line arguments
@@ -44,8 +44,6 @@ public class Driver {
 
         // Solve all nodes that have a parent with only 1 child.
         OneChildSolve.Execute(csp);
-
-        
 
         // Timer thread
         Thread timer = new Thread(() -> {

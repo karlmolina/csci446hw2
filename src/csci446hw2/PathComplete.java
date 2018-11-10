@@ -15,7 +15,7 @@ public class PathComplete {
         return check(source, null);
     }
     
-    public static boolean check(Node source, Node previous) {
+    private static boolean check(Node source, Node previous) {
         for (Node node : source.children) {
             if (node.color == source.color && node != previous) {
                 if (node.isSource) {

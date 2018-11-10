@@ -30,10 +30,21 @@ public class Backtracking {
                 Driver.boardFrame.f.revalidate();
             }
             if (current.isConsistent(assignment)) {
-
+                boolean pathComplete = false;
+                if (PathComplete.check(csp, color)) {
+                    pathComplete = true;
+                    for (Node node : csp.unassignedVariablesList) {
+                        node.domain.remove(color);
+                    }
+                }
                 char[][] result = apple(assignment, csp);
                 if (result != null) {
                     return result;
+                }
+                if (pathComplete) {
+                    for (Node node : csp.unassignedVariablesList) {
+                        node.domain.addFirst(color);
+                    }
                 }
             }
             current.unassign(assignment);
