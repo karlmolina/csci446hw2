@@ -22,7 +22,7 @@ public class CSP {
     PriorityQueue<Node> unassignedVariablesPQ;
     char[][] sourceVariables;
     PriorityQueue<Node> expandableNodes;
-    HashMap<Character, HashSet<Node>> sourceColorToNodeMap;
+    HashMap<Character, LinkedList<Node>> sourceColorToNodeMap;
 
     public CSP(Board board) {
         expandableNodes = new PriorityQueue<>((Node a, Node b) -> a.nodeDomain.size() - b.nodeDomain.size());
@@ -40,7 +40,7 @@ public class CSP {
                     allColors.add(node.color);
                     sources.add(node);
                     if (!sourceColorToNodeMap.containsKey(node.color)) {
-                        sourceColorToNodeMap.put(node.color, new HashSet<>());
+                        sourceColorToNodeMap.put(node.color, new LinkedList<>());
                     }
                     sourceColorToNodeMap.get(node.color).add(node);
                 } else {

@@ -6,8 +6,6 @@
 package csci446hw2;
 
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -26,7 +24,7 @@ public class Driver {
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
      */
-    public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException {
         // What board you are running
         System.out.println(BOARD_SIZE + "x" + BOARD_SIZE);
         // The file name for that board
@@ -72,6 +70,8 @@ public class Driver {
             System.out.println((System.currentTimeMillis() - then) / 1000.0);
             boardFrame.f.repaint();
             board.print();
+            
+            // Stop the timer thread
             timer.interrupt();
         });
 
