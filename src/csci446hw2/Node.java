@@ -53,6 +53,14 @@ public class Node {
         if (x > 0 && y < assignment.length - 1 && assignment[y + 1][x] == color && assignment[y][x - 1] == color && assignment[y + 1][x - 1] == color) {
             return false;
         }
+        //check for square of the same color to the top left
+        if (x > 0 && y > 0 && assignment[y - 1][x - 1] == color && assignment[y - 1][x] == color && assignment[y][x - 1] == color) {
+            return false;
+        }
+        //check for square of the same color to the top right
+        if (x < assignment.length - 1 && y > 0 && assignment[y - 1][x + 1] == color && assignment[y - 1][x] == color && assignment[y][x + 1] == color) {
+            return false;
+        }
         //check each child to see if they are consistent
         for (Node child : children) {
             if (child.color == '_') {
