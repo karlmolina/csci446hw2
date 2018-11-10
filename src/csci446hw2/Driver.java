@@ -18,7 +18,7 @@ public class Driver {
     // 1 means animate, 0 means don't
     public static int ANIMATE = 0,
             // possible boards 5, 7, 8, 9, 10, 12, 14
-            BOARD_SIZE = 5;
+            BOARD_SIZE = 14;
 
     /**
      * @param args the command line arguments

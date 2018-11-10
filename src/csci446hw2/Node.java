@@ -45,22 +45,11 @@ public class Node {
     }
 
     public boolean isConsistent(char[][] assignment) {
-        //check for squares of the same color to the bottom right
-        if (y < assignment.length - 1 && x < assignment.length - 1 && assignment[y + 1][x] == color && assignment[y][x + 1] == color && assignment[y + 1][x + 1] == color) {
+
+        if (!isConsistentSquares(assignment)) {
             return false;
         }
-        //check for square of the same color to the bottom left
-        if (x > 0 && y < assignment.length - 1 && assignment[y + 1][x] == color && assignment[y][x - 1] == color && assignment[y + 1][x - 1] == color) {
-            return false;
-        }
-        //check for square of the same color to the top left
-        if (x > 0 && y > 0 && assignment[y - 1][x - 1] == color && assignment[y - 1][x] == color && assignment[y][x - 1] == color) {
-            return false;
-        }
-        //check for square of the same color to the top right
-        if (x < assignment.length - 1 && y > 0 && assignment[y - 1][x + 1] == color && assignment[y - 1][x] == color && assignment[y][x + 1] == color) {
-            return false;
-        }
+
         //check each child to see if they are consistent
         for (Node child : children) {
             if (child.color == '_') {
@@ -80,6 +69,9 @@ public class Node {
         if (childrenColorCount.get(color) > 2) {
             return false;
         }
+        //for (Character clr: domain) {
+            
+       // }
 //        if (childrenAssigned == childrenCount && childrenColorCount.get(color) != 2) {
 //            return false;
 //        }
@@ -96,6 +88,27 @@ public class Node {
                 return false;
             }
         }
+        return true;
+    }
+
+    private boolean isConsistentSquares(char[][] assignment) {
+        //check for squares of the same color to the bottom right
+        if (y < assignment.length - 1 && x < assignment.length - 1 && assignment[y + 1][x] == color && assignment[y][x + 1] == color && assignment[y + 1][x + 1] == color) {
+            return false;
+        }
+        //check for square of the same color to the bottom left
+        if (x > 0 && y < assignment.length - 1 && assignment[y + 1][x] == color && assignment[y][x - 1] == color && assignment[y + 1][x - 1] == color) {
+            return false;
+        }
+        //check for square of the same color to the top left
+        if (x > 0 && y > 0 && assignment[y - 1][x - 1] == color && assignment[y - 1][x] == color && assignment[y][x - 1] == color) {
+            return false;
+        }
+        //check for square of the same color to the top right
+        if (x < assignment.length - 1 && y > 0 && assignment[y - 1][x + 1] == color && assignment[y - 1][x] == color && assignment[y][x + 1] == color) {
+            return false;
+        }
+
         return true;
     }
 
