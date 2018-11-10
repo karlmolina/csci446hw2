@@ -104,7 +104,7 @@ public class Board {
                 return Color.GRAY;
             case 'W':
                 return Color.WHITE;
-            case 'P': 
+            case 'P':
                 return Color.PINK;
             case 'K':
                 return Color.CYAN.darker();

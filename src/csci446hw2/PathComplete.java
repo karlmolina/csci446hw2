@@ -10,11 +10,12 @@ package csci446hw2;
  * @author h89q624
  */
 public class PathComplete {
+
     public static boolean check(CSP csp, char c) {
         Node source = csp.sourceColorToNodeMap.get(c).getFirst();
         return check(source, null);
     }
-    
+
     private static boolean check(Node source, Node previous) {
         for (Node node : source.children) {
             if (node.color == source.color && node != previous) {
@@ -24,7 +25,7 @@ public class PathComplete {
                 return check(node, source);
             }
         }
-        
+
         return false;
     }
 }

@@ -17,7 +17,8 @@ public class OneChildSolve {
     /**
      * Goes through unassigned variables in the csp and assigns them if they
      * have a child with only one unassigned child
-     * @param csp 
+     *
+     * @param csp
      */
     public static void Execute(CSP csp) {
         boolean check;

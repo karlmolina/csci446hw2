@@ -62,7 +62,7 @@ public class CSP {
                 }
             }
         }
-        
+
         for (Node node : unassignedVariablesList) {
             if (!node.isSource) {
                 //node.domain.addAll(allColors);

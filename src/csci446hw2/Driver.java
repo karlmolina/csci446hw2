@@ -18,7 +18,7 @@ public class Driver {
     // 1 means animate, 0 means don't
     public static int ANIMATE = 0,
             // possible boards 5, 7, 8, 9, 10, 12, 14
-            BOARD_SIZE = 14;
+            BOARD_SIZE = 5;
 
     /**
      * @param args the command line arguments
@@ -59,7 +59,7 @@ public class Driver {
                 }
             }
         });
-        
+
         // Thread to run the backtracking apple
         // For some reason it does not animate it inside the thread.
         Thread runAlgorithm = new Thread(() -> {
@@ -68,7 +68,7 @@ public class Driver {
             System.out.println((System.currentTimeMillis() - then) / 1000.0);
             boardFrame.f.repaint();
             board.print();
-            
+
             // Stop the timer thread
             timer.interrupt();
         });

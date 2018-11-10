@@ -15,6 +15,7 @@ import javax.swing.JPanel;
  * @author Karl
  */
 public class BoardFrame {
+
     public static final int NODE_SIZE = 40;
     private BoardPanel boardPanel;
     JFrame f;
@@ -43,7 +44,7 @@ public class BoardFrame {
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board.length; j++) {
                     g.setColor(Board.colorOfChar(board[i][j]));
-                    g.fillRect(j*NODE_SIZE, i*NODE_SIZE, NODE_SIZE, NODE_SIZE);
+                    g.fillRect(j * NODE_SIZE, i * NODE_SIZE, NODE_SIZE, NODE_SIZE);
                 }
             }
         }
