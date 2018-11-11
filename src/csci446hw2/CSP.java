@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
-import javafx.util.Pair;
 
 /**
  *
@@ -17,13 +16,13 @@ import javafx.util.Pair;
  */
 public class CSP {
 
-    LinkedList<Node> unassignedVariablesList;
+    LinkedList<Node> variables;
     char[][] sourceVariables;
     HashMap<Character, LinkedList<Node>> sourceColorToNodeMap;
 
     public CSP(Board board) {
         sourceVariables = board.grid;
-        unassignedVariablesList = new LinkedList<>();
+        variables = new LinkedList<>();
         sourceColorToNodeMap = new HashMap<>();
         HashSet<Character> allColors = new HashSet<>();
 
@@ -38,30 +37,36 @@ public class CSP {
                     }
                     sourceColorToNodeMap.get(node.color).add(node);
                 } else {
-                    unassignedVariablesList.addLast(node);
+                    if (Driver.TOP_LEFT_START == 1) {
+                        variables.addLast(node);
+                    } else {
+                        variables.addFirst(node);
+                    }
                 }
             }
         }
 
-        // Order the node's color domain by distance to a source node with
-        // that color
-//        for (Node node : unassignedVariablesList) {
-//            PriorityQueue<ColorDistancePair> pq = new PriorityQueue<>();
-//            for (Node source : sources) {
-//                int distance = Math.abs(node.x - source.x) + Math.abs(node.y - source.y);
-//                pq.add(new ColorDistancePair(distance, source.color));
-//            }
-//            while (!pq.isEmpty()) {
-//                ColorDistancePair current = pq.poll();
-//                if (!node.domain.contains(current.color)) {
-//                    node.domain.addLast(current.color);
-//                }
-//            }
-//        }
-
-        for (Node node : unassignedVariablesList) {
-            if (!node.isSource) {
-                node.domain.addAll(allColors);
+        if (Driver.ORDER_DOMAIN_BY_DISTANCE == 1) {
+            // Order the node's color domain by distance to a source node with
+            // that color
+            for (Node node : variables) {
+                PriorityQueue<ColorDistancePair> pq = new PriorityQueue<>();
+                for (Node source : sources) {
+                    int distance = Math.abs(node.x - source.x) + Math.abs(node.y - source.y);
+                    pq.add(new ColorDistancePair(distance, source.color));
+                }
+                while (!pq.isEmpty()) {
+                    ColorDistancePair current = pq.poll();
+                    if (!node.domain.contains(current.color)) {
+                        node.domain.addLast(current.color);
+                    }
+                }
+            }
+        } else {
+            for (Node node : variables) {
+                if (!node.isSource) {
+                    node.domain.addAll(allColors);
+                }
             }
         }
     }
@@ -81,10 +86,10 @@ public class CSP {
             return this.distance - ((ColorDistancePair) o).distance;
         }
     }
-    
+
     public Node selectUnassignedVariable() {
         Node returnNode = null;
-        for (Node node : unassignedVariablesList) {
+        for (Node node : variables) {
             if (node.isBlank()) {
                 returnNode = node;
                 break;

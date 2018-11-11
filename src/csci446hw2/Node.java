@@ -48,9 +48,11 @@ public class Node {
         //check each child to see if they are consistent
         for (Node child : children) {
             if (child.isBlank()) {
-//                if (!child.isConsistentBlank(assignment)) {
-//                    return false;
-//                }
+                if (Driver.BLANK_CHECK == 1) {
+                    if (!child.isConsistentBlank(assignment)) {
+                        return false;
+                    }
+                }
 
             } else if (!child.isConsistentWithChildren()) {
                 return false;
@@ -65,7 +67,7 @@ public class Node {
 //            return false;
 //        }
         boolean isConsistent = false;
-        for (Character color: domain) {
+        for (Character color : domain) {
             assign(color, assignment);
             if (isConsistentNoBlankCheck(assignment)) {
                 isConsistent = true;
@@ -80,11 +82,11 @@ public class Node {
 //        }
         return isConsistent;
     }
-    
+
     private boolean isConsistentNoBlankCheck(char[][] assignment) {
-        if (!isConsistentSquares(assignment)) {
-            return false;
-        }
+//        if (!isConsistentSquares(assignment)) {
+//            return false;
+//        }
 
         //check each child to see if they are consistent
         for (Node child : children) {
@@ -93,7 +95,7 @@ public class Node {
             }
 
         }
-        
+
         return isConsistentWithChildren();
     }
 
@@ -113,7 +115,7 @@ public class Node {
         // If the node is a source and all of its children are assigned,
         // then it must have only 1 child that is the same color as it
         if (isSource) {
-            
+
             if (childrenAssigned == children.size() && childrenSameColor != 1) {
                 return false;
             }
@@ -121,11 +123,11 @@ public class Node {
             if (childrenSameColor > 1) {
                 return false;
             }
-            
-        // If the node is not a source and all its children are assigned,
-        // then it must have exactly 2 children that are the same color as it
+
+            // If the node is not a source and all its children are assigned,
+            // then it must have exactly 2 children that are the same color as it
         } else {
-            
+
             if ((childrenAssigned == children.size() && childrenSameColor != 2) || (childrenAssigned == children.size() - 1 && childrenSameColor == 0)) {
                 return false;
             }

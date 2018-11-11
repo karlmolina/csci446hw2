@@ -19,7 +19,17 @@ public class Driver {
     // 1 means animate, 0 means don't
     public static int ANIMATE = 0,
             // board sizes: 5, 7, 8, 9, 10, 12, 14
-            BOARD_SIZE = 14;
+            BOARD_SIZE = 12,
+            // Heuristics options
+            PATH_COMPLETE = 0,
+            ORDER_DOMAIN_BY_DISTANCE = 0,
+            TOUCHING_COLORS_FIRST = 0,
+            // Other options
+            
+            // 0 = Start going through the unassigned variables from the top left
+            // 1 = Start from bottom right 
+            TOP_LEFT_START = 1,
+            BLANK_CHECK = 0;
 
     /**
      * @param args the command line arguments
@@ -31,9 +41,8 @@ public class Driver {
         //                  0  1  2  3  4   5   6
         Integer[] boardSizes = {5, 7, 8, 9, 10, 12, 14};
         int boardIndex = Arrays.asList(boardSizes).indexOf(BOARD_SIZE);
-        System.out.println(boardIndex);
-        //for (int i = boardIndex; i >= 0; i--) {
-        for (int i = boardIndex; i > -1; i = -1) {
+        for (int i = boardIndex; i >= 0; i--) {
+        //for (int i = boardIndex; i > -1; i = -1) {
             //int boardSize = BOARD_SIZE;
             int boardSize = boardSizes[i];
             // What board you are running
