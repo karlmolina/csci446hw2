@@ -45,23 +45,23 @@ public class CSP {
 
         // Order the node's color domain by distance to a source node with
         // that color
-        for (Node node : unassignedVariablesList) {
-            PriorityQueue<ColorDistancePair> pq = new PriorityQueue<>();
-            for (Node source : sources) {
-                int distance = Math.abs(node.x - source.x) + Math.abs(node.y - source.y);
-                pq.add(new ColorDistancePair(distance, source.color));
-            }
-            while (!pq.isEmpty()) {
-                ColorDistancePair current = pq.poll();
-                if (!node.domain.contains(current.color)) {
-                    node.domain.addLast(current.color);
-                }
-            }
-        }
+//        for (Node node : unassignedVariablesList) {
+//            PriorityQueue<ColorDistancePair> pq = new PriorityQueue<>();
+//            for (Node source : sources) {
+//                int distance = Math.abs(node.x - source.x) + Math.abs(node.y - source.y);
+//                pq.add(new ColorDistancePair(distance, source.color));
+//            }
+//            while (!pq.isEmpty()) {
+//                ColorDistancePair current = pq.poll();
+//                if (!node.domain.contains(current.color)) {
+//                    node.domain.addLast(current.color);
+//                }
+//            }
+//        }
 
         for (Node node : unassignedVariablesList) {
             if (!node.isSource) {
-                //node.domain.addAll(allColors);
+                node.domain.addAll(allColors);
             }
         }
     }

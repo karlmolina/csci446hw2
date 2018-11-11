@@ -20,10 +20,10 @@ public class BoardFrame {
     private BoardPanel boardPanel;
     JFrame f;
 
-    public BoardFrame(char[][] board) {
+    public BoardFrame(char[][] board, String title) {
         boardPanel = new BoardPanel(board);
 
-        f = new JFrame();
+        f = new JFrame(title);
         int size = NODE_SIZE * (board.length + 2);
         f.setSize(size, size);
         f.add(boardPanel);
@@ -43,9 +43,42 @@ public class BoardFrame {
         public void paint(Graphics g) {
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board.length; j++) {
-                    g.setColor(Board.colorOfChar(board[i][j]));
+                    g.setColor(colorOfChar(board[i][j]));
                     g.fillRect(j * NODE_SIZE, i * NODE_SIZE, NODE_SIZE, NODE_SIZE);
                 }
+            }
+        }
+
+        private Color colorOfChar(char c) {
+            switch (c) {
+                case 'O':
+                    return Color.ORANGE;
+                case 'C':
+                    return Color.CYAN;
+                case 'M':
+                    return Color.MAGENTA;
+                case 'Y':
+                    return Color.YELLOW;
+                case 'B':
+                    return Color.BLUE;
+                case 'D':
+                    return Color.RED.darker();
+                case 'G':
+                    return Color.GREEN;
+                case 'R':
+                    return Color.RED;
+                case 'A':
+                    return Color.GRAY;
+                case 'W':
+                    return Color.WHITE;
+                case 'P':
+                    return Color.PINK;
+                case 'K':
+                    return Color.CYAN.darker();
+                case 'Q':
+                    return Color.DARK_GRAY;
+                default:
+                    return Color.BLACK;
             }
         }
     }

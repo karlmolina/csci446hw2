@@ -6,6 +6,7 @@
 package csci446hw2;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 /**
  *
@@ -17,76 +18,79 @@ public class Driver {
     // Whether to animate the solving of the puzzle or not
     // 1 means animate, 0 means don't
     public static int ANIMATE = 0,
-            // possible boards 5, 7, 8, 9, 10, 12, 14
+            // board sizes: 5, 7, 8, 9, 10, 12, 14
             BOARD_SIZE = 14;
 
     /**
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
+     * @throws java.lang.InterruptedException
      */
-    public static void main(String[] args) throws FileNotFoundException {
-        // What board you are running
-        System.out.println(BOARD_SIZE + "x" + BOARD_SIZE);
-        // The file name for that board
-        String boardName = "boards/" + BOARD_SIZE + "x" + BOARD_SIZE + "maze.txt";
-        //Board board = new Board("boards/testmaze.txt");
+    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
 
-        // Create the board
-        Board board = new Board(boardName);
-        board.print();
+        //                  0  1  2  3  4   5   6
+        Integer[] boardSizes = {5, 7, 8, 9, 10, 12, 14};
+        int boardIndex = Arrays.asList(boardSizes).indexOf(BOARD_SIZE);
+        System.out.println(boardIndex);
+        //for (int i = boardIndex; i >= 0; i--) {
+        for (int i = boardIndex; i > -1; i = -1) {
+            //int boardSize = BOARD_SIZE;
+            int boardSize = boardSizes[i];
+            // What board you are running
+            String boardName = boardSize + "x" + boardSize;
+            System.out.println("Solving the " + boardName + " puzzle.");
 
-        // Convert the board to a csp
-        CSP csp = new CSP(board);
+            // The file name for that board
+            String boardFile = "boards/" + boardName + "maze.txt";
 
-        // Make the graphics
-        boardFrame = new BoardFrame(board.grid);
-        boardFrame.f.repaint();
-
-        // Solve all nodes that have a parent with only 1 child.
-        //OneChildSolve.Execute(csp);
-        boardFrame.f.repaint();
-        
-        // Timer thread
-        Thread timer = new Thread(() -> {
-            long then = System.currentTimeMillis();
-            int second = 0;
-            while (true) {
-                try {
-                    Thread.sleep(1000);
-                    System.out.println(second);
-                    second++;
-                } catch (InterruptedException ex) {
-                    break;
-                }
-            }
-        });
-
-        // Thread to run the backtracking apple
-        // For some reason it does not animate it inside the thread.
-        Thread runAlgorithm = new Thread(() -> {
-            long then = System.currentTimeMillis();
-            Backtracking.apple(csp);
-            System.out.println((System.currentTimeMillis() - then) / 1000.0);
-            boardFrame.f.repaint();
+            //Board board = new Board("boards/testmaze.txt");
+            // Create the board
+            Board board = new Board(boardFile);
             board.print();
+            // Convert the board to a csp
+            CSP csp = new CSP(board);
 
-            // Stop the timer thread
-            timer.interrupt();
-        });
+            // Make the graphics
+            boardFrame = new BoardFrame(board.grid, boardName);
+            boardFrame.f.repaint();
 
-        timer.start();
-        runAlgorithm.start();
+            // Solve all nodes that have a parent with only 1 child.
+            //OneChildSolve.Execute(csp);
+            boardFrame.f.repaint();
 
-        // Code to run all the boards one after another
-        //boardFrame = new BoardFrame(board.grid);
-//        int[] boardSizes = {5, 7, 8, 9, 10, 12, 14};
-//        
-//        for (int i = 0; i < boardSizes.length; i++) {
-//            int boardSize = boardSizes[i];
-//            String boardPath = "boards/" + boardSize + "x" + boardSize + "maze.txt";
-//            System.out.println(boardPath);
-//            Board board = new Board(boardPath);
-//            board.print();
-//        }
+            //Timer thread
+            Thread timer = new Thread(() -> {
+                long then = System.currentTimeMillis();
+                int second = 0;
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                        System.out.println(second);
+                        second++;
+                    } catch (InterruptedException ex) {
+                        break;
+                    }
+                }
+            });
+            // Thread to run the backtracking apple
+            Thread runAlgorithm = new Thread(() -> {
+                long then = System.currentTimeMillis();
+                Backtracking.apple(csp);
+                System.out.println("The " + boardName + " puzzle took " +(System.currentTimeMillis() - then) / 1000.0 + " seconds to solve.");
+                boardFrame.f.repaint();
+                board.print();
+
+                // Stop the timer thread
+                timer.interrupt();
+            });
+
+            timer.start();
+            runAlgorithm.start();
+
+            runAlgorithm.join();
+            System.out.println();
+        }
+        
+        System.out.println("Close the window to exit the program.");
     }
 }
