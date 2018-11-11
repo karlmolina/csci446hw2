@@ -55,7 +55,6 @@ public class Driver {
             boardFrame.f.repaint();
 
             // Solve all nodes that have a parent with only 1 child.
-            //OneChildSolve.Execute(csp);
             boardFrame.f.repaint();
 
             //Timer thread
