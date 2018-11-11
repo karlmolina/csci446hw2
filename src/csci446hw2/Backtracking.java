@@ -13,9 +13,13 @@ import java.util.LinkedList;
  * @author Karl
  */
 public class Backtracking {
-
+    public static int assignedCount = 0;
+    
     public static char[][] apple(CSP csp) {
-        return apple(csp.sourceVariables, csp);
+        assignedCount = 0;
+        char[][] result = apple(csp.sourceVariables, csp);
+        System.out.println("Number of assignments attempted = " + assignedCount);
+        return result;
     }
 
     public static char[][] apple(char[][] assignment, CSP csp) {
@@ -56,7 +60,11 @@ public class Backtracking {
         // Try to assign the colors in the current node's
         // domain
         for (Character color : current.domain) {
+            // I assigned the color here because I would have to
+            // anyway to check the consistency. And I didn't want
+            // to assign anything in the isConsistent() check
             current.assign(color, assignment);
+            assignedCount++;
             if (current.isConsistent(assignment)) {
 
                 // Show the animation of the graphics
