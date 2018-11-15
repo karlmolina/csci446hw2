@@ -41,8 +41,10 @@ public class Node {
     }
 
     public boolean isConsistent(char[][] assignment) {
-        if (!isConsistentSquares(assignment)) {
-            return false;
+        if (Driver.SQUARE_CONSTRAINT == 1) {
+            if (!isConsistentSquares(assignment)) {
+                return false;
+            }
         }
 
         //check each child to see if they are consistent
@@ -84,9 +86,11 @@ public class Node {
     }
 
     private boolean isConsistentNoBlankCheck(char[][] assignment) {
-//        if (!isConsistentSquares(assignment)) {
-//            return false;
-//        }
+        if (Driver.SQUARE_CONSTRAINT == 1) {
+            if (!isConsistentSquares(assignment)) {
+                return false;
+            }
+        }
 
         //check each child to see if they are consistent
         for (Node child : children) {
