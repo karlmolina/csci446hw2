@@ -69,10 +69,6 @@ public class BoardFrame {
             switch (c) {
                 case 'O':
                     return Color.ORANGE;
-                case 'C':
-                    return Color.CYAN;
-                case 'M':
-                    return Color.MAGENTA;
                 case 'Y':
                     return Color.YELLOW;
                 case 'B':

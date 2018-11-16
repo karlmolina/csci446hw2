@@ -67,9 +67,6 @@ public class Driver {
                     boardFrame = new BoardFrame(board.grid, boardFile);
                     boardFrame.f.repaint();
 
-                    // Solve all nodes that have a parent with only 1 child.
-                    boardFrame.f.repaint();
-
                     //Timer thread
                     Thread timer = new Thread(() -> {
                         long then = System.currentTimeMillis();

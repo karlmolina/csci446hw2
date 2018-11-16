@@ -1,0 +1,276 @@
+Dumb algorithm
+Solving boards/5x5maze.txt
+B__RO
+___Y_
+__Y__
+_RO_G
+_BG__
+Number of assignments attempted = 87
+The boards/5x5maze.txt puzzle took 6 ms to solve.
+BRRRO
+BRYYO
+BRYOO
+BROOG
+BBGGG
+
+Smart algorithm
+Solving boards/5x5maze.txt
+B__RO
+___Y_
+__Y__
+_RO_G
+_BG__
+Number of assignments attempted = 58
+The boards/5x5maze.txt puzzle took 0 ms to solve.
+BRRRO
+BRYYO
+BRYOO
+BROOG
+BBGGG
+
+Dumb algorithm
+Solving boards/7x7maze.txt
+___O___
+_B__GY_
+___BR__
+___Y___
+_______
+__R____
+G___O__
+Number of assignments attempted = 442
+The boards/7x7maze.txt puzzle took 1 ms to solve.
+GGGOOOO
+GBGGGYO
+GBBBRYO
+GYYYRYO
+GYRRRYO
+GYRYYYO
+GYYYOOO
+
+Smart algorithm
+Solving boards/7x7maze.txt
+___O___
+_B__GY_
+___BR__
+___Y___
+_______
+__R____
+G___O__
+Number of assignments attempted = 471
+The boards/7x7maze.txt puzzle took 1 ms to solve.
+GGGOOOO
+GBGGGYO
+GBBBRYO
+GYYYRYO
+GYRRRYO
+GYRYYYO
+GYYYOOO
+
+Dumb algorithm
+Solving boards/8x8maze.txt
+___R__G_
+_BYP____
+___O_GR_
+___P____
+______Y_
+____BOQ_
+_Q______
+________
+Number of assignments attempted = 990
+The boards/8x8maze.txt puzzle took 2 ms to solve.
+YYYRRRGG
+YBYPPRRG
+YBOOPGRG
+YBOPPGGG
+YBOOOOYY
+YBBBBOQY
+YQQQQQQY
+YYYYYYYY
+
+Smart algorithm
+Solving boards/8x8maze.txt
+___R__G_
+_BYP____
+___O_GR_
+___P____
+______Y_
+____BOQ_
+_Q______
+________
+Number of assignments attempted = 352
+The boards/8x8maze.txt puzzle took 0 ms to solve.
+YYYRRRGG
+YBYPPRRG
+YBOOPGRG
+YBOPPGGG
+YBOOOOYY
+YBBBBOQY
+YQQQQQQY
+YYYYYYYY
+
+Dumb algorithm
+Solving boards/9x9maze.txt
+D__BOK___
+__O__R___
+__RQ__Q__
+DB_______
+_G_______
+___P____G
+__Y___Y__
+______KP_
+_________
+Number of assignments attempted = 19849
+The boards/9x9maze.txt puzzle took 6 ms to solve.
+DBBBOKKKK
+DBOOORRRK
+DBRQQQQRK
+DBRRRRRRK
+GGKKKKKKK
+GKKPPPPPG
+GKYYYYYPG
+GKKKKKKPG
+GGGGGGGGG
+
+Smart algorithm
+Solving boards/9x9maze.txt
+D__BOK___
+__O__R___
+__RQ__Q__
+DB_______
+_G_______
+___P____G
+__Y___Y__
+______KP_
+_________
+Number of assignments attempted = 16675
+The boards/9x9maze.txt puzzle took 2 ms to solve.
+DBBBOKKKK
+DBOOORRRK
+DBRQQQQRK
+DBRRRRRRK
+GGKKKKKKK
+GKKPPPPPG
+GKYYYYYPG
+GKKKKKKPG
+GGGGGGGGG
+
+Dumb algorithm
+Solving boards/10x10maze.txt
+RG________
+____O___O_
+_YP_Q___Q_
+__________
+__G_______
+______R___
+______B___
+P_________
+_Y______B_
+__________
+Number of assignments attempted = 16167
+The boards/10x10maze.txt puzzle took 1 ms to solve.
+RGGGGGGGGG
+RRRROOOOOG
+YYPRQQQQQG
+YPPRRRRRRG
+YPGGBBBBRG
+YPPGBRRBRG
+YYPGBRBBRG
+PYPGBRRRRG
+PYPGBBBBBG
+PPPGGGGGGG
+
+Smart algorithm
+Solving boards/10x10maze.txt
+RG________
+____O___O_
+_YP_Q___Q_
+__________
+__G_______
+______R___
+______B___
+P_________
+_Y______B_
+__________
+Number of assignments attempted = 46173
+The boards/10x10maze.txt puzzle took 3 ms to solve.
+RGGGGGGGGG
+RRRROOOOOG
+YYPRQQQQQG
+YPPRRRRRRG
+YPGGBBBBRG
+YPPGBRRBRG
+YYPGBRBBRG
+PYPGBRRRRG
+PYPGBBBBBG
+PPPGGGGGGG
+
+Dumb algorithm
+Solving boards/12x12maze.txt
+____________
+____________
+_____K_Y_G__
+___Y___G____
+_O_P______Q_
+___R_OQ_____
+____P_ARK___
+_D__D_W_____
+__________W_
+__B_______B_
+__________A_
+____________
+0
+1
+2
+3
+4
+5
+6
+7
+8
+Number of assignments attempted = 391509641
+The boards/12x12maze.txt puzzle took 9344 ms to solve.
+KKKKKKKKKKKK
+KOOOOOOOOOOK
+KOKKKKYYGGOK
+KOKYYYYGGOOK
+KOKPPOOOOOQK
+KKKRPOQQQQQK
+RRRRPAARKKKK
+RDDDDAWRRRRR
+RAAAAAWWWWWR
+RABBBBBBBBBR
+RAAAAAAAAAAR
+RRRRRRRRRRRR
+
+Smart algorithm
+Solving boards/12x12maze.txt
+____________
+____________
+_____K_Y_G__
+___Y___G____
+_O_P______Q_
+___R_OQ_____
+____P_ARK___
+_D__D_W_____
+__________W_
+__B_______B_
+__________A_
+____________
+0
+1
+Number of assignments attempted = 123980308
+The boards/12x12maze.txt puzzle took 2950 ms to solve.
+KKKKKKKKKKKK
+KOOOOOOOOOOK
+KOKKKKYYGGOK
+KOKYYYYGGOOK
+KOKPPOOOOOQK
+KKKRPOQQQQQK
+RRRRPAARKKKK
+RDDDDAWRRRRR
+RAAAAAWWWWWR
+RABBBBBBBBBR
+RAAAAAAAAAAR
+RRRRRRRRRRRR
+
+Close a window to exit the program.
