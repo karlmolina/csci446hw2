@@ -14,10 +14,29 @@ import java.util.LinkedList;
  */
 public class Node {
 
+    /**
+     * The x and y coordinates for the node.
+     */
     int x, y;
+    
+    /**
+     * The color of the node.
+     */
     char color;
+    
+    /**
+     * A list of the nodes that are next to this node.
+     */
     ArrayList<Node> children;
-    boolean isSource, isComplete;
+    
+    /**
+     * If the node is a source or not.
+     */
+    boolean isSource;
+    
+    /**
+     * A list of the node's possible colors that it can be.
+     */
     LinkedList<Character> domain;
 
     /**

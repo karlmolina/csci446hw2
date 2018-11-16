@@ -16,19 +16,40 @@ import java.util.PriorityQueue;
  */
 public class CSP {
 
+    /**
+     * A list of the non-source variables in the csp.
+     */
     LinkedList<Node> variables;
+    
+    /**
+     * A 2D array of the source variables.
+     */
     char[][] sourceVariables;
+    
+    /**
+     * A map that maps colors to list of the 2 sources which have that color.
+     */
     HashMap<Character, LinkedList<Node>> sourceColorToNodeMap;
 
+    /**
+     * CSP constructor.
+     * Takes a board and converts it to a csp.
+     * @param board 
+     */
     public CSP(Board board) {
+        // Initialize variables
         sourceVariables = board.grid;
         variables = new LinkedList<>();
         sourceColorToNodeMap = new HashMap<>();
+        // Set to remember all the colors for the csp
         HashSet<Character> allColors = new HashSet<>();
-
         HashSet<Node> sources = new HashSet<>();
+        
+        // Loop through all the nodes in the board
         for (Node[] nodeArray : board.nodes) {
             for (Node node : nodeArray) {
+                // If the node is a source add it to the sources, and store
+                // its color in the allColors set
                 if (node.isSource) {
                     allColors.add(node.color);
                     sources.add(node);
@@ -37,6 +58,7 @@ public class CSP {
                     }
                     sourceColorToNodeMap.get(node.color).add(node);
                 } else {
+                    // If the node is not a source add it to the variables list
                     if (Driver.TOP_LEFT_START == 1) {
                         variables.addLast(node);
                     } else {
@@ -63,6 +85,7 @@ public class CSP {
                 }
             }
         } else {
+            // Do not order the colors before you add them to the node's domain
             for (Node node : variables) {
                 if (!node.isSource) {
                     node.domain.addAll(allColors);
@@ -71,11 +94,20 @@ public class CSP {
         }
     }
 
+    /**
+     * A helper class to order the colors and the distance from a current node
+     * and that color.
+     */
     private class ColorDistancePair implements Comparable {
 
         int distance;
         char color;
 
+        /**
+         * ColorDistancePair constructor
+         * @param distance
+         * @param color 
+         */
         public ColorDistancePair(int distance, char color) {
             this.distance = distance;
             this.color = color;
@@ -87,6 +119,11 @@ public class CSP {
         }
     }
 
+    /**
+     * Select an unassigned variable.
+     * Iterates through the variables and returns the first node that is blank.
+     * @return 
+     */
     public Node selectUnassignedVariable() {
         Node returnNode = null;
         for (Node node : variables) {

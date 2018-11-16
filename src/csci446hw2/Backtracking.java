@@ -9,20 +9,34 @@ import static csci446hw2.Driver.ANIMATE;
 import java.util.LinkedList;
 
 /**
- *
+ * Class to hold the recursive backtracking execute methods.
  * @author Karl
  */
 public class Backtracking {
+    /**
+     * Static count to see how many nodes were attempted
+     */
     public static int assignedCount = 0;
     
-    public static char[][] apple(CSP csp) {
+    /**
+     * Executes backtracking on the csp
+     * @param csp
+     * @return a complete assignment or nothing if it's impossible
+     */
+    public static char[][] execute(CSP csp) {
         assignedCount = 0;
-        char[][] result = apple(csp.sourceVariables, csp);
+        char[][] result = execute(csp.sourceVariables, csp);
         System.out.println("Number of assignments attempted = " + assignedCount);
         return result;
     }
 
-    public static char[][] apple(char[][] assignment, CSP csp) {
+    /**
+     * Recursive backtracking method
+     * @param assignment
+     * @param csp
+     * @return 
+     */
+    public static char[][] execute(char[][] assignment, CSP csp) {
         // Get an unassigned variable from the csp
         Node current = csp.selectUnassignedVariable();
 
@@ -89,7 +103,7 @@ public class Backtracking {
                         }
                     }
                 }
-                char[][] result = apple(assignment, csp);
+                char[][] result = execute(assignment, csp);
                 if (result != null) {
                     return result;
                 }

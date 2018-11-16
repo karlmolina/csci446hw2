@@ -11,15 +11,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- *
+ * Class to draw graphics of the csp getting solved.
  * @author Karl
  */
 public class BoardFrame {
-
+    /**
+     * How big the nodes are on the graphic
+     */
     public static final int NODE_SIZE = 40;
     private BoardPanel boardPanel;
     JFrame f;
 
+    /**
+     * BoardFrame constructor
+     * @param board 
+     * @param title 
+     */
     public BoardFrame(char[][] board, String title) {
         boardPanel = new BoardPanel(board);
 
@@ -39,6 +46,10 @@ public class BoardFrame {
             this.board = board;
         }
 
+        /**
+         * Method that draws the current board to the JPanel
+         * @param g 
+         */
         @Override
         public void paint(Graphics g) {
             for (int i = 0; i < board.length; i++) {
@@ -49,6 +60,11 @@ public class BoardFrame {
             }
         }
 
+        /**
+         * Method to get a real Color from a character
+         * @param c
+         * @return 
+         */
         private Color colorOfChar(char c) {
             switch (c) {
                 case 'O':

@@ -11,15 +11,33 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
+ * Class to represent the free flow board to solve.
  *
  * @author Karl
  */
 public class Board {
 
+    /**
+     * A 2D array of the colors in the board.
+     */
     char[][] grid;
+
+    /**
+     * The size of the board.
+     */
     int size;
+
+    /**
+     * The nodes that represent each spot in the board.
+     */
     Node[][] nodes;
 
+    /**
+     * Board constructor.
+     * Creates a board from a given filename.
+     * @param fileName
+     * @throws FileNotFoundException 
+     */
     public Board(String fileName) throws FileNotFoundException {
         Scanner in = new Scanner(new File(fileName));
         ArrayList<String> lines = new ArrayList<>();
@@ -72,6 +90,9 @@ public class Board {
         }
     }
 
+    /**
+     * Prints the board's colors
+     */
     public void print() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
